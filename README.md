@@ -1,0 +1,2 @@
+# CryptoIndexedDB
+暗号化したデータをIndexedDBに保管するライブラリ
