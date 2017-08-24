@@ -1,0 +1,2 @@
+# EncryptIndexedDBEntityManager
+暗号化したデータをIndexedDBに保管するEntityManagerなライブラリ
