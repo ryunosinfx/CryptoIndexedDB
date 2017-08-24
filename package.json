@@ -1,0 +1,27 @@
+{
+  "name": "EncryptIndexedDBEntityManager",
+  "version": "1.0.0",
+  "description": "EncryptIndexedDBEntityManager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --hot --inline --progress --colors",
+    "build": "webpack --progress --colors"
+  },
+  "keywords": [
+    "EncryptIndexedDBEntityManager"
+  ],
+  "author": "RyunosinFX",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "eslint": "^3.8.1",
+    "eslint-loader": "^1.6.0",
+    "file-loader": "^0.9.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
