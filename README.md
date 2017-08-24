@@ -1,2 +1,2 @@
-# CryptoIndexedDB
-暗号化したデータをIndexedDBに保管するライブラリ
+# EncryptIndexedDBEntityManager
+暗号化したデータをIndexedDBに保管するEntityManagerなライブラリ
