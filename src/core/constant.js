@@ -4,5 +4,6 @@ export default {
   dbName:"ECIDBEM",
   ua:ua,
   domain:domain,
+  iv:"ECIDBEMiv🚉出ベム";
 
 }
