@@ -1,52 +1,53 @@
 //↓↓↓↓追加
+const path = require('path');
 const webpack = require("webpack");
 module.exports = {
-  context: __dirname,
-  entry: ['./src/main.js', './src/main.css',"./src/index.html"],
-
-  output: {
-    path: __dirname + "/dist",
-    filename: "bundle.js",
-  },
-
-  //↓↓↓↓追加
-  plugins: [
-    //new webpack.optimize.UglifyJsPlugin()
+  //  context: __dirname,
+  entry: [
+    './src/main.js', './src/main.css'
   ],
-
+  output: {
+    // 出力するファイル名
+    filename: 'bundle.js',
+    // 出力先のパス
+    path: __dirname + "/dist",
+    //publicPath: __dirname + "/dist/js",
+  },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         enforce: 'pre',
-        use: [{loader: 'eslint-loader'}],
-      },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: 'babel-loader',
-      //       options: {presets: [['es2015', {modules: false}]]},
-      //     },
-      //   ],
-      // },
-    ],
-    // preLoaders: [
-    //     //Eslint loader
-    //   { test: /\.js?$/, exclude: /node_modules/, loader: "eslint-loader"},
-    // ],
-    // loaders: [
-    //   { test: /\.html$/, loader: "file?name=[name].[ext]" },
-    //   { test: /\.css$/, loader: "file?name=[name].[ext]" },
-    //   { test: /\.js?$/, exclude: /node_modules/, loaders: ['babel']},
-    // ],
+        use: [
+          {
+            loader: 'eslint-loader'
+          }
+        ]
+      }
+    ]
   },
+  devServer: {
+    publicPath: "/dist/",
+    contentBase: __dirname + "/dist/",
+    watchContentBase: true,
+    // inline: true,
+    // //host: '0.0.0.0',
+    // port: 8080,
+  },
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        html: './index.html'
+      }
+    })
+
+    //new webpack.optimize.UglifyJsPlugin(),
+    //new webpack.optimize.AggressiveMergingPlugin(),
+  ],
+  devtool: 'source-map',
   resolve: {
-    extensions: [ '.js']
-  },
-  // eslint: {
-  //   configFile: './.eslintrc'
-  // },
+    extensions: ['.js']
+  }
 };
