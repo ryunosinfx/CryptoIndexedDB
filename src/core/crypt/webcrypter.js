@@ -5,7 +5,7 @@ const scubtleCrypto = crypto.subtle;
 const iv = crypto.getRandomValues(new Uint8Array(12));
 const algorithm = {
   name: AES_CBC,
-  iv: String2Buffer.s2b(constant.iv);
+  iv: String2Buffer.s2b(constant.iv)
 };
 const hashLevel = "SHA-512";
 export default class WebCrypter {
@@ -15,17 +15,22 @@ export default class WebCrypter {
   }
   //　ストレッチ回数分回るよ！
   hashExecute(dataString, salt1, salt2, count) {
-    let self = this；
+    let self = this
     count++;
     return new Promise((resolve, reject) => {
       scubtleCrypto.digest(hashLevel, dataString).then((keyBuffer) => {
         if (constant.strechCount > count) {
           let nextDataString = salt1 + String2Buffer.b2Base64(keyBuffer) + salt2;
-          self.hashExecute(nextDataString, salt1, salt2, count)；
+          self.hashExecute(nextDataString, salt1, salt2, count)
         } else {
           resolve(String2Buffer.b2Base64(keyBuffer));
         }
-      }});}
+      }, (e) => {
+        console.log(e);
+        reject(e);
+      })
+    });
+  }
   //Data only String, you need JSON.stringify.
   encrypt(key, dataString) {
     return new Promise((resolve, reject) => {
@@ -43,7 +48,8 @@ export default class WebCrypter {
         console.log(e);
         reject(e);
       });
-    };}
+    });
+  }
   //
   decrypt(key, cryptBuffer) {
     return new Promise((resolve, reject) => {
@@ -61,6 +67,7 @@ export default class WebCrypter {
         console.log(e);
         reject(e);
       });
-    };}
+    });
+  }
 
 }
