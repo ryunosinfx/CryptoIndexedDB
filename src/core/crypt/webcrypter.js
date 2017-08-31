@@ -10,26 +10,23 @@ const algorithm = {
 const hashLevel = "SHA-512";
 export default class WebCrypter {
   constructor() {}
-  hash(dataString, salt1, salt2) {
-    return hashExecute(dataString, salt1, salt2, 0);
+  async hash(dataString, salt1, salt2) {
+    let dataBuffer = String2Buffer.s2b(dataString);
+    return await this.hashExecute(dataBuffer, salt1, salt2, 0);
   }
   //　ストレッチ回数分回るよ！
-  hashExecute(dataString, salt1, salt2, count) {
+  async hashExecute(dataString, salt1, salt2, count) {
     let self = this
     count++;
-    return new Promise((resolve, reject) => {
-      scubtleCrypto.digest(hashLevel, dataString).then((keyBuffer) => {
-        if (constant.strechCount > count) {
-          let nextDataString = salt1 + String2Buffer.b2Base64(keyBuffer) + salt2;
-          self.hashExecute(nextDataString, salt1, salt2, count)
-        } else {
-          resolve(String2Buffer.b2Base64(keyBuffer));
-        }
-      }, (e) => {
-        console.log(e);
-        reject(e);
-      })
-    });
+    let keyBuffer = await scubtleCrypto.digest(hashLevel, dataString);
+    if (constant.strechCount > count) {
+      let nextDataString = salt1 + String2Buffer.b2Base64(keyBuffer) + salt2;
+      let nextDataBuffer = String2Buffer.s2b(dataString);
+      return await self.hashExecute(nextDataBuffer, salt1, salt2, count);
+    } else {
+      return String2Buffer.b2Base64(keyBuffer);
+    }
+    return
   }
   //Data only String, you need JSON.stringify.
   encrypt(key, dataString) {
