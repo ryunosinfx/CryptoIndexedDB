@@ -14,7 +14,7 @@ let vnode = h('div', {
 window.onload = () => {
   let elements = document.getElementsByTagName("body");
   elements[0].innerHTML = '<h1>Hellow!</h1><div id="container"></div>';
-  let containerNode = document.getElementById("#container");
+  let containerNode = document.getElementById("container");
   testOne.test(containerNode);
   // patch(elements[0], vnode);
   // let newVnode = h('div#container.two.classes', {

@@ -23,24 +23,40 @@ export default class String2Buffer {
   static base64Dcode(str) {
     return decodeURIComponent(escape(atob(str)));
   }
+  static unitbs(segs) {
+    let sumLength = 0;
+    let coutSegs = segs.length;
+    for (let i = 0; i < coutSegs; ++i) {
+      sumLength += segs[i].byteLength;
+    }
+    let united = new Uint8Array(sumLength);
+    let pos = 0;
+    for (let j = 0; j < coutSegs; ++j) {
+      let seg = segs[j];
+      united.set(new Uint8Array(seg), pos);
+      pos += seg.byteLength;
+    }
+    return united.buffer;
+
+  }
   // buffer to BASE64 string
-  static b2Base64( buffer ) {
-      let binary = '';
-      let bytes = new Uint8Array( buffer );
-      let len = bytes.byteLength;
-      for (let i = 0; i < len; i++) {
-          binary += String.fromCharCode( bytes[ i ] );
-      }
-      return window.btoa( binary );
+  static b2Base64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
   // BASE64 string to buffer
   static base642b(base64) {
-      let binary_string =  window.atob(base64);
-      let len = binary_string.length;
-      let bytes = new Uint8Array( len );
-      for (let i = 0; i < len; i++)        {
-          bytes[i] = binary_string.charCodeAt(i);
-      }
-      return bytes.buffer;
+    let binary_string = window.atob(base64);
+    let len = binary_string.length;
+    let bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 }

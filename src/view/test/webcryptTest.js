@@ -8,14 +8,7 @@ export default class WebcryptTest {
     this.webCrypter = new Webcrypter();
   }
   async test(anckerVnode) {
-    let testString = "aaaaa";
-    let salt1 = "bbbb";
-    let salt2 = "dddd";
-    let starTime = Date.now();
-    let hash = await this.webCrypter.hash(testString, salt1, salt2);
-
-    let endTime = Date.now();
-    let duration = endTime - starTime;
+    let {testString,salt1,salt2,hash,duration} = await this.hashTest();
     let newVnode = h('div#container.two.classes', {
       on: {
         click: () => {
@@ -35,15 +28,25 @@ export default class WebcryptTest {
           fontWeight: 'normal',
           fontStyle: 'italic'
         }
-      }, 'This is now italic type'),
-      ' and this is still just normal text',
-      h('a', {
-        props: {
-          href: '/'
-        }
-      }, 'I\'OK')
+      }, 'The Duration Time:'+duration+"ms"),
+      h('br'),
+      h('span', {}, "hash:" + hash),
+      h('br'),
+      ' and this is still just normal text'
     ]);
+    //alert("aaa anckerVnode:"+anckerVnode+"/newVnode:"+newVnode);
     patch(anckerVnode, newVnode);
+  }
+  async hashTest(){
+    let testString = "aaaaa";
+    let salt1 = "bbbb";
+    let salt2 = "dddd";
+    let starTime = Date.now();
+    let hash = await this.webCrypter.hash(testString, salt1, salt2);
+
+    let endTime = Date.now();
+    let duration = endTime - starTime;
+    return {testString,salt1,salt2,hash,duration};
   }
 
 }
