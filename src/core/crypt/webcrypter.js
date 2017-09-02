@@ -1,21 +1,26 @@
 import constant from '../constant'
 import String2Buffer from './string2Buffer'
-const AES_CBC = "AES-CBC";
 const scubtleCrypto = crypto.subtle;
-const iv = crypto.getRandomValues(new Uint8Array(12));
 const algorithm = {
-  name: AES_CBC,
-  iv: String2Buffer.s2b(constant.iv)
+  name: "AES-CBC",
+  iv: ""
 };
-const algo = {
-  name: AES_CBC,
-  length: 256
-};
-const extractable = false;
-const keyUsages = ["encrypt", "decrypt"];
-const hashLevel = "SHA-512";
+const extractable = true;
+const hashLevel = "SHA-256";
 export default class WebCrypter {
-  constructor() {}
+  constructor() {
+    scubtleCrypto.digest(hashLevel, String2Buffer.s2b(constant.iv)).then((hash) => {
+      let hash32 = new Uint8Array(hash);
+      let lenHalf = Math.ceil(hash32.length / 2);
+      let iv = new Uint8Array(16)
+      for (let i = 0; i < lenHalf; i++) {
+        iv[i] = hash32[i] ^ hash32[lenHalf + i]; //XORで
+      };
+      algorithm.iv = iv; //String2Buffer.b2Base64Url(hash);
+    }, (e) => {
+      alert(e)
+    });
+  }
   async hash(dataString, salt1, salt2) {
     let dataBuffer = String2Buffer.s2b(dataString);
     return await this.hashExecute(dataBuffer, String2Buffer.s2b(salt1), String2Buffer.s2b(salt2), 0);
@@ -34,52 +39,53 @@ export default class WebCrypter {
     return
   }
 
-   convertToKey(keyBuffer) {
-    alert(String2Buffer.b2Base64(keyBuffer));
-     alert(String2Buffer.b2Base64Url(keyBuffer));
-    return scubtleCrypto.importKey("jwk", { //this is an example jwk key, "raw" would be an ArrayBuffer
-      kty: "oct",
-      k: "Y0zt37HgOx-BY7SQjYVmrqhPkO44Ii2Jcb9yydUDPfE",
-      //String2Buffer.b2Base64Url(keyBuffer),
-      alg: "A256CBC",
-      ext: true
-    }, {
-      name: "AES-CBC"
-    }, false, ["encrypt", "decrypt"]).then((key)=>{alert(key)},(e)=>{console.log(e.stack);alert(e)});
+  async convertToKey(keyBuffer) {
+    return await scubtleCrypto.importKey(
+    //   "jwk", { //this is an example jwk key, "raw" would be an ArrayBuffer
+    //   kty: "oct",
+    //   k: String2Buffer.b2Base64Url(keyBuffer),
+    //   alg: "A256CBC",
+    //   ext: true
+    // }, algorithm, false,
+    //  ["encrypt", "decrypt"]
+    //
+    "raw", keyBuffer, algorithm, extractable, ["encrypt", "decrypt"]);
   }
   //Data only String, you need JSON.stringify.
   async encryptString(keyString, dataString) {
-    console.log("es01");
     let keyBaseBuffer = String2Buffer.s2b(keyString);
-      console.log("es02");
     let dataBuffer = String2Buffer.s2b(dataString);
-      console.log("es03");
     return await this.encrypt(keyBaseBuffer, dataBuffer);
   }
   //Data only String, you need JSON.stringify.
   async encrypt(keyBaseBuffer, dataBuffer) {
-    console.log("e01");
     let keyBuffer = await scubtleCrypto.digest(hashLevel, keyBaseBuffer);
-      console.log("e02");
-    let key = this.convertToKey(keyBuffer);
-      console.log("e03");
-    let result = await scubtleCrypto.encrypt(algorithm, key, dataBuffer);
-      console.log("e04");
+    let key = await this.convertToKey(keyBuffer);
+    let algo = {
+      name: key.algorithm.name,
+      length: key.algorithm.length,
+      iv:algorithm.iv
+    };
+    let result = await scubtleCrypto.encrypt(algo, key, dataBuffer);
     return result;
   }
   //
   async decrypt(keyBaseBuffer, cryptBuffer) {
-    let keyBuffer = scubtleCrypto.digest(hashLevel, keyBaseBuffer);
+    let keyBuffer = await scubtleCrypto.digest(hashLevel, keyBaseBuffer);
     let key = await this.convertToKey(keyBuffer);
-    let result = scubtleCrypto.decrypt(algorithm, key, cryptBuffer);
+    let algo = {
+      name: key.algorithm.name,
+      length: key.algorithm.length,
+      iv:algorithm.iv
+    };
+    let result = scubtleCrypto.decrypt(algo, key, cryptBuffer);
     return result;
   }
   //
   async decryptString(keyString, cryptBuffer) {
     let keyBaseBuffer = String2Buffer.s2b(keyString);
-    let keyBuffer = scubtleCrypto.digest(hashLevel, keyBaseBuffer);
-    let result = await this.decrypt(keyBaseBuffer, dataBuffer);
-    let resultString = String2Buffer.s2b(result);
+    let result = await this.decrypt(keyBaseBuffer, cryptBuffer);
+    let resultString = String2Buffer.b2s(result);
     return resultString;
   }
 }

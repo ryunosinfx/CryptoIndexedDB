@@ -12,6 +12,7 @@ export default class WebcryptTest {
     let {testString, salt1, salt2, hash, duration} = await this.hashTest();
     let {
       testPasswdString,
+      testDataString,
       salt1e,
       salt2e,
       hashe,
@@ -40,6 +41,22 @@ export default class WebcryptTest {
       h('br'),
       h('span', {}, "hash:" + hash),
       h('br'),
+      h('span', {}, 'The Duration Time:' + duration + "ms"),
+      h('br'),
+      h('br'),
+      h('hr'),
+      ' EncryptTest!',
+      h('br'),
+      h('span', {}, "testPasswdString:" + testPasswdString),
+      h('br'),
+      h('span', {}, "salt1e:" + salt1e),
+      h('br'),
+      h('span', {}, "salt2e:" + salt2e),
+      h('br'),
+      h('span', {}, "hashe:" + hashe),
+      h('br'),
+      h('span', {}, "testDataString:" + testDataString),
+      h('br'),
       h('span', {}, "encrypted:" + encrypted),
       h('br'),
       h('span', {}, "decrypted:" + decrypted),
@@ -51,19 +68,6 @@ export default class WebcryptTest {
       h('span', {}, 'The Duration Time3:' + d3 + "ms"),
       h('br'),
       h('span', {}, 'The Duration Time4:' + d4 + "ms"),
-      h('br'),
-      h('hr'),
-      ' EncryptTest!',
-      h('br'),
-      h('span', {}, "testPasswdString:" + testPasswdString),
-      h('br'),
-      h('span', {}, "salt1e:" + salt1e),
-      h('br'),
-      h('span', {}, "salt2e:" + salt2e),
-      h('br'),
-      h('span', {}, 'The Duration Time:' + duration + "ms"),
-      h('br'),
-      h('span', {}, "hashe:" + hashe),
       h('br'),
       ' and this is still just normal text'
     ]);
@@ -85,17 +89,17 @@ export default class WebcryptTest {
     console.log("a01");
     let testPasswdString = "aaaaa";
     let testDataString = "暗号化対象なう" + Date.now();
-    let salt1 = "bbhashbb";
-    let salt2 = "dddd";
+    let salt1e = "bbhashbb";
+    let salt2e = "dddd";
     let starTime = Date.now();
     console.log("a02");
-    let hash = await this.webCrypter.hash(testPasswdString, salt1, salt2);
+    let hashe = await this.webCrypter.hash(testPasswdString, salt1e, salt2e);
 
     console.log("a03");
     let endTime1 = Date.now();
 
     console.log("a04");
-    let encryptedBuffer = await this.webCrypter.encryptString(hash, testDataString);
+    let encryptedBuffer = await this.webCrypter.encryptString(hashe, testDataString);
 
     console.log("a05");
     let endTime2 = Date.now();
@@ -106,7 +110,7 @@ export default class WebcryptTest {
     console.log("a07");
     let endTime3 = Date.now();
     console.log("a08");
-    let decrypted = await this.webCrypter.decryptString(hash, encryptedBuffer);
+    let decrypted = await this.webCrypter.decryptString(hashe, encryptedBuffer);
 
     console.log("a09");
     let endTime4 = Date.now();
@@ -117,6 +121,7 @@ export default class WebcryptTest {
     let d4 = endTime4 - endTime3;
     return {
       testPasswdString,
+      testDataString,
       salt1e,
       salt2e,
       hashe,
