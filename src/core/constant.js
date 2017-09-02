@@ -5,5 +5,5 @@ export default {
   ua:ua,
   domain:domain,
   iv:"ECIDBEMiv🚉出ベム",
-  strechCount:10020
+  strechCount:1020
 }

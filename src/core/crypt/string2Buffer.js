@@ -17,10 +17,31 @@ export default class String2Buffer {
     }
     return tmp.join("");
   }
-  static base64Encode(str) {
+  static base64UrlEncode(str) {
     return btoa(unescape(encodeURIComponent(str)));
   }
-  static base64Dcode(str) {
+  static base64UrlDcode(str) {
+    return decodeURIComponent(escape(atob(str)));
+  }
+  static bin2base64Url(str) {
+    let base64Str = window.btoa(str);
+    base64Str = base64Str.replace(/\+/g, "-");
+    base64Str = base64Str.replace(/\//g, "_");
+    base64Str = base64Str.replace(/=/g, "");
+    return base64Str;
+  }
+  static base64Url2bin(str) {
+    let paddingCount = str.Length % 4;
+    paddingCount = paddingCount !== 0
+      ? 4 - paddingCount
+      : paddingCount;
+    let padding = "";
+    for (let i = 0; i < paddingCount; i++) {
+      padding += "=";
+    }
+    let base64Str = window.btoa(str);
+    base64Str = base64Str.replace(/-/g, "+");
+    base64Str = base64Str.replace(/_/g, "/") + padding;
     return decodeURIComponent(escape(atob(str)));
   }
   static unitbs(segs) {
@@ -39,19 +60,38 @@ export default class String2Buffer {
     return united.buffer;
 
   }
+  // buffer to BASE64Url string
+  static b2Base64Url(buffer) {
+    let binary = String2Buffer.b2Base64Execute(buffer);
+    return String2Buffer.bin2base64Url(binary);
+  }
+  // BASE64Url string to buffer
+  static base642bUrl(base64) {
+    let binaryString = String2Buffer.base64Url2bin(base64);
+    return String2Buffer.base642bExecute(binaryString);
+  }
   // buffer to BASE64 string
   static b2Base64(buffer) {
+    let binary = String2Buffer.b2Base64Execute(buffer);
+    return window.btoa(binary);
+  }
+  // BASE64 string to buffer
+  static base642b(base64) {
+    let binaryString = window.atob(base64);
+    return String2Buffer.base642bExecute(binaryString);
+  }
+  // buffer to BASE64 string
+  static b2Base64Execute(buffer) {
     let binary = '';
     let bytes = new Uint8Array(buffer);
     let len = bytes.byteLength;
     for (let i = 0; i < len; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    return window.btoa(binary);
+    return binary;
   }
   // BASE64 string to buffer
-  static base642b(base64) {
-    let binary_string = window.atob(base64);
+  static base642bExecute(binary_string) {
     let len = binary_string.length;
     let bytes = new Uint8Array(len);
     for (let i = 0; i < len; i++) {
