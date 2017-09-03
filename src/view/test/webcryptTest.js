@@ -12,12 +12,15 @@ export default class WebcryptTest {
     let {testString, salt1, salt2, hash, duration} = await this.hashTest();
     let {
       testPasswdString,
+      testPasswdString2,
       testDataString,
       salt1e,
       salt2e,
       hashe,
+      hashe2,
       encrypted,
       decrypted,
+      decrypted2,
       d1,
       d2,
       d3,
@@ -31,7 +34,8 @@ export default class WebcryptTest {
         }
       }
     }, [
-      ' Hash+Strech1000Test!',
+      h('hr'),
+      h('h4', {}, ' Hash+Strech1000Test!!'),
       h('br'),
       h('span', {}, "testString:" + testString),
       h('br'),
@@ -45,7 +49,7 @@ export default class WebcryptTest {
       h('br'),
       h('br'),
       h('hr'),
-      ' EncryptTest!',
+      h('h4', {}, ' EncryptTest!'),
       h('br'),
       h('span', {}, "testPasswdString:" + testPasswdString),
       h('br'),
@@ -69,7 +73,14 @@ export default class WebcryptTest {
       h('br'),
       h('span', {}, 'The Duration Time4:' + d4 + "ms"),
       h('br'),
-      ' and this is still just normal text'
+      h('h5', {}, ' EncryptTest! ErrorCase'),
+      h('br'),
+      h('span', {}, "testPasswdString:" + testPasswdString2),
+      h('br'),
+      h('span', {}, "hashe2:" + hashe2),
+      h('br'),
+      h('span', {}, "decrypted2:" + decrypted2),
+      h('br'),
     ]);
     //alert("aaa anckerVnode:"+anckerVnode+"/newVnode:"+newVnode);
     patch(anckerVnode, newVnode);
@@ -88,6 +99,7 @@ export default class WebcryptTest {
   async cryptTest() {
     console.log("a01");
     let testPasswdString = "aaaaa";
+    let testPasswdString2 = "aaaaa1";
     let testDataString = "暗号化対象なう" + Date.now();
     let salt1e = "bbhashbb";
     let salt2e = "dddd";
@@ -111,7 +123,14 @@ export default class WebcryptTest {
     let endTime3 = Date.now();
     console.log("a08");
     let decrypted = await this.webCrypter.decryptString(hashe, encryptedBuffer);
-
+    let hashe2 = await this.webCrypter.hash(testPasswdString2, salt1e, salt2e);
+    let decrypted2 = "---";
+    try {
+      console.log("a08error");
+      decrypted2 = await this.webCrypter.decryptString(hashe2, encryptedBuffer)
+    } catch (e) {
+      decrypted2 = e;
+    }
     console.log("a09");
     let endTime4 = Date.now();
     console.log("a10");
@@ -121,12 +140,15 @@ export default class WebcryptTest {
     let d4 = endTime4 - endTime3;
     return {
       testPasswdString,
+      testPasswdString2,
       testDataString,
       salt1e,
       salt2e,
       hashe,
+      hashe2,
       encrypted,
       decrypted,
+      decrypted2,
       d1,
       d2,
       d3,

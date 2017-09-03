@@ -64,28 +64,37 @@ export default class WebCrypter {
     let algo = {
       name: key.algorithm.name,
       length: key.algorithm.length,
-      iv:algorithm.iv
+      iv: algorithm.iv
     };
     let result = await scubtleCrypto.encrypt(algo, key, dataBuffer);
     return result;
   }
-  //
+  // invalidKeyHash is throw error!
   async decrypt(keyBaseBuffer, cryptBuffer) {
-    let keyBuffer = await scubtleCrypto.digest(hashLevel, keyBaseBuffer);
-    let key = await this.convertToKey(keyBuffer);
-    let algo = {
-      name: key.algorithm.name,
-      length: key.algorithm.length,
-      iv:algorithm.iv
-    };
-    let result = scubtleCrypto.decrypt(algo, key, cryptBuffer);
-    return result;
+    try {
+      let keyBuffer = await scubtleCrypto.digest(hashLevel, keyBaseBuffer);
+      let key = await this.convertToKey(keyBuffer);
+      let algo = {
+        name: key.algorithm.name,
+        length: key.algorithm.length,
+        iv: algorithm.iv
+      };
+      let result = await scubtleCrypto.decrypt(algo, key, cryptBuffer);
+      return result;
+    } catch (e) {
+      throw e + 'error'
+    }
   }
   //
   async decryptString(keyString, cryptBuffer) {
-    let keyBaseBuffer = String2Buffer.s2b(keyString);
-    let result = await this.decrypt(keyBaseBuffer, cryptBuffer);
-    let resultString = String2Buffer.b2s(result);
-    return resultString;
+
+    try {
+      let keyBaseBuffer = String2Buffer.s2b(keyString);
+      let result = await this.decrypt(keyBaseBuffer, cryptBuffer);
+      let resultString = String2Buffer.b2s(result);
+      return resultString;
+    } catch (e) {
+      throw e + 'error'
+    }
   }
 }
