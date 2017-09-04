@@ -21,18 +21,18 @@ export default class WebCrypter {
       alert(e)
     });
   }
-  async hash(dataString, salt1, salt2) {
+  async hash(dataString, salt1 = "", salt2 = "", strechCount = constant.strechCount) {
     let dataBuffer = String2Buffer.s2b(dataString);
-    return await this.hashExecute(dataBuffer, String2Buffer.s2b(salt1), String2Buffer.s2b(salt2), 0);
+    return await this.hashExecute(dataBuffer, String2Buffer.s2b(salt1), String2Buffer.s2b(salt2), 0, strechCount);
   }
   //　ストレッチ回数分回るよ！
-  async hashExecute(dataBuffer, salt1, salt2, count) {
+  async hashExecute(dataBuffer, salt1, salt2, count, strechCount = 1) {
     let self = this
     count++;
     let keyBuffer = await scubtleCrypto.digest(hashLevel, dataBuffer);
-    if (constant.strechCount > count) {
+    if (strechCount > count) {
       let nextDataBuffer = String2Buffer.unitbs([salt1, keyBuffer, salt2]);
-      return await self.hashExecute(nextDataBuffer, salt1, salt2, count);
+      return await self.hashExecute(nextDataBuffer, salt1, salt2, count, strechCount);
     } else {
       return String2Buffer.b2Base64(keyBuffer);
     }

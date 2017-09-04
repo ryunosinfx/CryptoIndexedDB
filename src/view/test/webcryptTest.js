@@ -80,7 +80,7 @@ export default class WebcryptTest {
       h('span', {}, "hashe2:" + hashe2),
       h('br'),
       h('span', {}, "decrypted2:" + decrypted2),
-      h('br'),
+      h('br')
     ]);
     //alert("aaa anckerVnode:"+anckerVnode+"/newVnode:"+newVnode);
     patch(anckerVnode, newVnode);
