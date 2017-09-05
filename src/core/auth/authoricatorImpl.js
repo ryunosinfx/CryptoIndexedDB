@@ -55,6 +55,13 @@ export default class AuthoricatorImple {
   async cryptTokenAbyKeyB(tokenA,keyB){
     return await Webcrypter.encrypt(keyB,tokenA);
   }
-  async saveKeys() {}
+  // なんか区分値テーブルも隠したくなった。
+  async cratePropertieOSName(){
+    let nameSeed = this.domain + DLMT + this.dbName+ DLMT +this.appName+ DLMT +this.userId;
+    return String2Buffer.b2Base64Url(await Webcrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName));
+  }
+  async saveKeys() {
+
+  }
   async loadKeys() {}
 }
