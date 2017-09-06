@@ -28,5 +28,14 @@ export default class IdbRapper {
     }
     return null;
   }
+  async loadAllData() {
+    return await this.idbh._selectAll(this.objectStoreName);
+  }
+  async deleteData(key) {
+    if (key !== undefined) {
+      return await this.idbh._delete(this.objectStoreName, key);
+    }
+    return null;
+  }
 
 }

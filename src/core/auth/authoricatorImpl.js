@@ -1,6 +1,7 @@
 import constant from '../constant'
 import String2Buffer from '../core/string2Buffer'
 import Webcrypter from '../core/crypt/webcrypter'
+import idbr from '../idb/idbRapper'
 const DLMT = "_𩻩𩸕𩹉_";
 export default class AuthoricatorImple {
   //引数つきコンストラクター
@@ -34,6 +35,7 @@ export default class AuthoricatorImple {
       console.log("ERROR AuthoricatorImple.constructor @make EncryptionTokenBKey");
       console.log(e);
     });
+    this.osName = null;
   }
   // トークンはArrayBuffer
   async crateCryptKeyTokenA(passwd) {
@@ -61,7 +63,13 @@ export default class AuthoricatorImple {
     return String2Buffer.b2Base64Url(await Webcrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName));
   }
   async saveKeys() {
-
+    if(this.osName === null){
+      this.osName = await this.cratePropertieOSName();
+    }
   }
-  async loadKeys() {}
+  async loadKeys() {
+    if(this.osName === null){
+      this.osName = await this.cratePropertieOSName();
+    }
+  }
 }
