@@ -10,7 +10,23 @@ export default class IdbRapper {
     this.keyPathName = keypathName;
     this.objectStoreName = objectStoreName;
     //tableName, keyPathName
-    this.idbh._createStore(objectStoreName, keypathName);
+    this.firstPromise = this.idbh._createStore(objectStoreName, keypathName);
+  }
+  async isFished() {
+    return new Promise((reslve, reject) => {
+      this.firstPromise.then(() => {
+        reslve(true);
+      }),
+      (e) => {
+        throw e;
+      })});
+  }
+  async saveDataDefault(key,data) {
+    var record = {
+      pk: key,
+      data: data
+    };
+    await this.saveData(record);
   }
   async saveData(dataObj, key) {
     let storeData = dataObj;
@@ -27,6 +43,13 @@ export default class IdbRapper {
       return await this.idbh._selectByKey(this.objectStoreName, key);
     }
     return null;
+  }
+  async loadDataDefault(key) {
+      await this.init();
+      var record = await this.loadData(key);
+      return record === undefined || record === null
+        ? null
+        : record.data;
   }
   async loadAllData() {
     return await this.idbh._selectAll(this.objectStoreName);
