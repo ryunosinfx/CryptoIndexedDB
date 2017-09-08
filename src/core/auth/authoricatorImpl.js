@@ -72,10 +72,18 @@ export default class AuthoricatorImple {
   async createStep1CrypytKey(passwd) {
     return await Webcrypter.hash(this.appName + DLMT + this.userId + DLMT + passwd + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
   }
+  async createTokenC(passwd){
+    return await Webcrypter.hash( this.userId + DLMT + passwd + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+  }
+  async createTokenD(passwd){
+    return await Webcrypter.hash( this.userId + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+  }
+  isEqualDualAllayBuffers(bufferA,bufferB){
+    return String2Buffer.b2Base64Url(bufferA) === String2Buffer.b2Base64Url(bufferB);
+  }
   // keyはArrayBuffer
-  async createStep2CrypytKey(passwd,tokenA,tokenB) {
-    let tokenC = await Webcrypter.hash( this.userId + DLMT + passwd + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
-    let array = new Uint8Array(String2Buffer.unitbs(tokenC,tokenA,tokenB));
+  async createStep2CrypytKey(passwdHash,tokenA,tokenB) {
+    let array = new Uint8Array(String2Buffer.unitbs(passwdHash,tokenA,tokenB));
     return array.reverse().buffer;
   }
   // あんまり進歩はありませんが、ここでカプセル化しておく。
