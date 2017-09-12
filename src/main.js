@@ -1,8 +1,10 @@
 import constant from './core/constant'
 import {patch, h} from './view/preLoader'
 import WebcryptTest from './view/test/webcryptTest'
+import AuthoricatorTest from './view/test/autoricatorTest'
 console.log('logger.js is now loaded...');
 let testOne = new WebcryptTest();
+let testTwo = new AuthoricatorTest();
 let vnode = h('div', {
   style: {
     color: '#000'
@@ -16,6 +18,7 @@ window.onload = () => {
   elements[0].innerHTML = '<h1>Hellow!</h1><div id="container"></div>';
   let containerNode = document.getElementById("container");
   testOne.test(containerNode);
+  testTwo.test(containerNode);
   // patch(elements[0], vnode);
   // let newVnode = h('div#container.two.classes', {
   //   on: {
