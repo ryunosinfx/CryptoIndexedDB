@@ -1,6 +1,6 @@
 import constant from '../constant'
-import String2Buffer from '../core/string2Buffer'
-import Webcrypter from '../core/crypt/webcrypter'
+import String2Buffer from '../crypt/string2Buffer'
+import Webcrypter from '../crypt/webcrypter'
 import idbr from '../idb/idbRapper'
 const DLMT = "_𩻩𩸕𩹉_";
 export default class AuthoricatorImple {
@@ -14,15 +14,17 @@ export default class AuthoricatorImple {
     this.EncryptionTokenBKey = "";
     let self = this;
 
+    this.webCrypter = new Webcrypter();
     this.ua = constant.ua;
     this.domain = constant.domain;
     this.dbName = constant.dbName;
     this.appName = constant.appName;
     this.promiseA = new Promise((resolve) => {
-      Webcrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenAPrefix, this.dbName, 1).then((hash) => {
+      this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenAPrefix, this.dbName, 2).then((hashValue) => {
+        console.log(hashValue);
         self.EncryptionTokenAKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionTokenAPrefix),
-          hash
+          String2Buffer.base642b(hashValue)
         ]);
       }, (e) => {
         console.log("ERROR AuthoricatorImple.constructor @make EncryptionTokenAKey");
@@ -30,10 +32,11 @@ export default class AuthoricatorImple {
       });
     });
     this.promiseB = new Promise((resolve) => {
-      Webcrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenBPrefix, this.dbName, 1).then((hash) => {
+      this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenBPrefix, this.dbName, 3).then((hashValue) => {
+        console.log(hashValue);
         self.EncryptionTokenBKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionTokenBPrefix),
-          hash
+          String2Buffer.base642b(hashValue)
         ]);
       }, (e) => {
         console.log("ERROR AuthoricatorImple.constructor @make EncryptionTokenBKey");
@@ -41,10 +44,11 @@ export default class AuthoricatorImple {
       });
     });
     this.promiseC = new Promise((resolve) => {
-      Webcrypter.hash(this.appName + DLMT + userId, this.EncryptionUserIdPrefix, this.dbName, 1).then((hash) => {
+      this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionUserIdPrefix, this.dbName, 4).then((hashValue) => {
+        console.log(hashValue);
         self.EncryptionUserIdKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionUserIdPrefix),
-          hash
+          String2Buffer.base642b(hashValue)
         ]);
       }, (e) => {
         console.log("ERROR AuthoricatorImple.constructor @make EncryptionUserIdKey");

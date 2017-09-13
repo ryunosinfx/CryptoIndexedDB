@@ -1,4 +1,6 @@
-import Authoricator from '../../core/auth/authoricatorImpl'
+import constant from '../../core/constant'
+import Authoricator from '../../core/auth/authoricator'
+import {patch, h} from '../preLoader'
 export default class AuthoricatorTest {
   constructor() {
     this.constant = constant.dbName;
@@ -6,7 +8,7 @@ export default class AuthoricatorTest {
     //this.constant.strechCount = 1000;
   }
   async test(anckerVnode) {
-    let {userId,password,result01,result02,result03,result04,d1,d2,d3,d4} = await　this.login（）；
+    let {userId,password,result01,result02,result03,result04,d1,d2,d3,d4} = await this.login();
     let newVnode = h('div#container.two.classes', {
       on: {
         click: () => {
@@ -16,7 +18,7 @@ export default class AuthoricatorTest {
       }
     }, [
       h('hr'),
-      h('h4', {}, ' Hash+Strech1000Test!!'),
+      h('h4', {}, ' data+AuthoricatorTest!!'),
       h('br'),
       h('span', {}, "userId:" + userId),
       h('br'),
@@ -43,14 +45,22 @@ export default class AuthoricatorTest {
     patch(anckerVnode, newVnode);
   }
   async login() {
+    console.log("AuthoricatorTest---a001");
     const userId ="aaaa";
+      console.log("AuthoricatorTest---a002");
     const password = "bbbbb";
+      console.log("AuthoricatorTest---a003");
     let result01 = null;
+      console.log("AuthoricatorTest---a004");
     let t1 = Date.now();
     try{
-      this.authoricator.signup(userId,password);
-      this.authoricator.signin(userId,password);
-      result01 = this.authoricator.isLogedIn();
+      console.log("AuthoricatorTest---a01");
+      result01 = await this.authoricator.signup(userId,password);
+      console.log("AuthoricatorTest---a02");
+      result01 += await this.authoricator.signin(userId,password);
+      console.log("AuthoricatorTest---a03");
+      result01 += await this.authoricator.isLogedIn();
+      console.log("AuthoricatorTest---a04");
     }catch(e){
       result01 = e;
     }
@@ -58,20 +68,29 @@ export default class AuthoricatorTest {
     let d1 = t2 -t1;
     let result02 = null;
     try{
-      this.authoricator.activate(userId,password);
-      this.authoricator.signin(userId,password);
-      result02 = this.authoricator.isLogedIn();
-    }catch(e){
+      console.log("AuthoricatorTest---b01");
+      result02 = await this.authoricator.activate(userId,password);
+      console.log("AuthoricatorTest---b02");
+      result02 += await this.authoricator.signin(userId,password);
+      console.log("AuthoricatorTest---b03");
+      result02 += await this.authoricator.isLogedIn();
+      console.log("AuthoricatorTest---b04");
+    }catch(e){result02 =
       result02 = e;
     }
     let t3 = Date.now();
     let d2 = t3 -t2;
     let result03 = null;
     try{
-      this.authoricator.signout();
-      this.authoricator.signin(userId,password);
-      this.authoricator.signout();
-      result03 = this.authoricator.isLogedIn();
+      console.log("AuthoricatorTest---c01");
+      result03 = await this.authoricator.signout();
+        console.log("AuthoricatorTest---c02");
+      result03 += await this.authoricator.signin(userId,password);
+        console.log("AuthoricatorTest---c03");
+      result03 += await this.authoricator.signout();
+        console.log("AuthoricatorTest---c04");
+      result03 += await this.authoricator.isLogedIn();
+        console.log("AuthoricatorTest---c05");
     }catch(e){
       result03 = e;
     }
@@ -81,15 +100,21 @@ export default class AuthoricatorTest {
     let result04 = null;
     let testDataA = "abababababa";
     try{
-      this.authoricator.signout();
-      this.authoricator.signin(userId,password);
-      this.authoricator.signout();
-      result04 = this.authoricator.isLogedIn();
+      console.log("AuthoricatorTest---d01");
+      result04 = await this.authoricator.signout();
+        console.log("AuthoricatorTest---d02");
+      result04 += await this.authoricator.signin(userId,password);
+        console.log("AuthoricatorTest---d03");
+      result04 += await this.authoricator.signout();
+        console.log("AuthoricatorTest---d04");
+      result04 += await this.authoricator.isLogedIn();
+        console.log("AuthoricatorTest---d05");
     }catch(e){
       result04 = e;
     }
     let t5 = Date.now();
     let d4 = t5 -t4;
+      console.log("AuthoricatorTest---z01");
 
     return {userId,password,result01,result02,result03,result04,d1,d2,d3,d4}
   }

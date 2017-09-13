@@ -1,5 +1,5 @@
 import constant from '../constant'
-import idbh from '../IndexeddbHelper'
+import idbh from './IndexeddbHelper'
 export default class IdbRapper {
 
   constructor(objectStoreName, keypathName = "pk") {
@@ -16,13 +16,13 @@ export default class IdbRapper {
     return new Promise((reslve, reject) => {
       this.firstPromise.then(() => {
         reslve(true);
-      }),
+      },
       (e) => {
         throw e;
       })});
   }
   async saveDataDefault(key,data) {
-    var record = {
+    let record = {
       pk: key,
       data: data
     };
@@ -46,7 +46,7 @@ export default class IdbRapper {
   }
   async loadDataDefault(key) {
       await this.init();
-      var record = await this.loadData(key);
+      let record = await this.loadData(key);
       return record === undefined || record === null
         ? null
         : record.data;

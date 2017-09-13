@@ -1,5 +1,5 @@
 import constant from '../constant'
-import String2Buffer from '../core/string2Buffer'
+import String2Buffer from '../crypt/string2Buffer'
 import AuthoricatorImpl from './authoricatorImpl'
 const keys = {
   tokenA: undefined,
@@ -14,17 +14,24 @@ export default class Authoricator {
   constructor() {}
   //ログイン
   async signup(userId, passwd) {
+    console.log("Authoricator-signup--a001");
     this.impl = new AuthoricatorImpl(userId);
+      console.log("Authoricator-signup--a002");
     await this.impl.waitInit();
+      console.log("Authoricator-signup--a003");
     let tokenA = await this.impl.crateCryptKeyTokenA(passwd);
+      console.log("Authoricator-signup--a004");
     let step1CryptKey = await this.impl.createStep1CrypytKey();
+      console.log("Authoricator-signup--a005");
     let encrypted = await this.impl.encrypt(step1CryptKey, tokenA);
+      console.log("Authoricator-signup--a006");
     await this.impl.saveKeys(this.impl.EncryptionTokenAKey, encrypted);
+      console.log("Authoricator-signup--a007");
     return true;
   }
   //ログイン
   async signin(userId, passwd) {
-    return await isActivate(userId, passwd);
+    return await this.isActivate(userId, passwd);
   }
   async isLogedIn() {
     try {
@@ -112,7 +119,7 @@ export default class Authoricator {
     }
     return await this.impl.encrypt(keys.step2CryptKey, data);
   }
-  
+
   async decrypt(data){
     if(keys.step2CryptKey === undefined){
       return null;

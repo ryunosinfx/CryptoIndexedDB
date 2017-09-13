@@ -15,10 +15,11 @@ let vnode = h('div', {
 ]);
 window.onload = () => {
   let elements = document.getElementsByTagName("body");
-  elements[0].innerHTML = '<h1>Hellow!</h1><div id="container"></div>';
+  elements[0].innerHTML = '<h1>Hellow!</h1><div id="c2"></div><div id="container"></div>';
   let containerNode = document.getElementById("container");
-  testOne.test(containerNode);
-  testTwo.test(containerNode);
+  let containerNode2 = document.getElementById("c2");
+//  testOne.test(containerNode);
+  testTwo.test(containerNode2);
   // patch(elements[0], vnode);
   // let newVnode = h('div#container.two.classes', {
   //   on: {
