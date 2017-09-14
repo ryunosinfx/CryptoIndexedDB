@@ -148,6 +148,7 @@ export default class IndexeddbHelper {
           reject(e);
         };
         let objectStore = transaction.objectStore(tableName);
+
         let objectStoreRequest = objectStore.get(key); //keyはsonomama
         objectStoreRequest.onsuccess = (event) => {
           let result = objectStoreRequest.result;
@@ -462,7 +463,16 @@ export default class IndexeddbHelper {
       // console.info("Object Store try create !"+tableName);
       self.getCurrentVersion().then((version) => {
         let newVersion = (version * 1) + 1; //計算結果を変数に代入すると行ける。
-        let request = self.indexedDB.open(self.dbName, newVersion);
+        let request = null;
+        try{
+          console.log("self.dbName"+self.dbName+"/newVersion:"+newVersion);
+          //objectStore:"mLYZt0r50EZ3xWDEAJpODEFosbp-4c6Hq72I_zajqv4"
+          request = self.indexedDB.open(self.dbName, newVersion);
+        }catch(e){
+          console.log(e);
+          reject(e);
+        }
+        //let request = self.indexedDB.open(self.dbName, newVersion);
         request.onerror = (event) => { //すでに有る場合
           let db = event.target.result;
           console.log("Why didn't you allow my web app to use IndexedDB?! A01_createStore");
@@ -477,7 +487,21 @@ export default class IndexeddbHelper {
         request.onupgradeneeded = (event) => {
           let db = event.target.result;
           // Create an objectStore for this database
-          let objectStore = db.createObjectStore(tableName, {keyPath: keyPathName});
+          try{
+            let isExist = false;
+            for(let name of db.objectStoreNames){
+              console.log("tableName:"+tableName+"/name:"+name);
+              if(name === tableName){
+                isExist = true;
+                break;
+              }
+            }
+            if(isExist === false){
+              let objectStore = db.createObjectStore(tableName, {keyPath: keyPathName});
+            }
+          }catch(e){
+            console.log(e);
+          }
 
           //objectStore.createIndex(keyPath+"Index", keyPath, { unique: true });
           // console.log("IndexeddbHelper createStore Yes! Succcess! tableName:"+tableName+"/keyPath:"+keyPath);

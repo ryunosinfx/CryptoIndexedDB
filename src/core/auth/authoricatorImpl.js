@@ -3,7 +3,7 @@ import String2Buffer from '../crypt/string2Buffer'
 import Webcrypter from '../crypt/webcrypter'
 import idbr from '../idb/idbRapper'
 const DLMT = "_𩻩𩸕𩹉_";
-export default class AuthoricatorImple {
+export default class AuthoricatorImpl {
   //引数つきコンストラクター
   constructor(userId) {
     this.userId = userId;
@@ -28,7 +28,7 @@ export default class AuthoricatorImple {
         ]);
         resolve(self.EncryptionTokenAKey);
       }, (e) => {
-        console.log("ERROR AuthoricatorImple.constructor @make EncryptionTokenAKey");
+        console.log("ERROR AuthoricatorImpl.constructor @make EncryptionTokenAKey");
         console.log(e);
         resolve(e);
       });
@@ -42,7 +42,7 @@ export default class AuthoricatorImple {
         ]);
         resolve(self.EncryptionTokenBKey);
       }, (e) => {
-        console.log("ERROR AuthoricatorImple.constructor @make EncryptionTokenBKey");
+        console.log("ERROR AuthoricatorImpl.constructor @make EncryptionTokenBKey");
         console.log(e);
         resolve(e);
       });
@@ -56,7 +56,7 @@ export default class AuthoricatorImple {
         ]);
         resolve(self.EncryptionUserIdKey);
       }, (e) => {
-        console.log("ERROR AuthoricatorImple.constructor @make EncryptionUserIdKey");
+        console.log("ERROR AuthoricatorImpl.constructor @make EncryptionUserIdKey");
         console.log(e);
         resolve(e);
       });
@@ -127,7 +127,9 @@ export default class AuthoricatorImple {
   // なんか区分値テーブルも隠したくなった。
   async cratePropertieOSName() {
     let nameSeed = this.domain + DLMT + this.dbName + DLMT + this.appName + DLMT + this.userId;
-    return String2Buffer.b2Base64Url(await this.webCrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName));
+    let key = await this.webCrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName,100);
+    //alert(key+"/"+new Uint8Array(key));
+    return String2Buffer.b2Base64Url(String2Buffer.base642b(key));
   }
   async init() {
     if (this.osName === null) {
@@ -137,14 +139,27 @@ export default class AuthoricatorImple {
         await this.idbr.isFished();
       } catch (e) {
         // momiee
+        alert(e);
       }
     }
   }
   async saveKeys(key, data) {
-    await this.init();
-    await this.idbr.saveDataDefault(key, data);
+    alert(data);
+    let key4idb = (typeof key === "object")
+      ? String2Buffer.b2Base64Url(key)
+      : key;
+    if (!!this.idbr === false) {
+      await this.init();
+    }
+    await this.idbr.saveDataDefault(key4idb, data);
   }
   async loadKeys(key) {
-    return await this.idbr.loadDataDefault(key);
+    let key4idb = (typeof key === "object")
+      ? String2Buffer.b2Base64Url(key)
+      : key;
+    if (!!this.idbr === false) {
+      await this.init();
+    }
+    return await this.idbr.loadDataDefault(key4idb);
   }
 }
