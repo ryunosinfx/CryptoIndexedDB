@@ -21,7 +21,7 @@ export default class AuthoricatorImpl {
     this.appName = constant.appName;
     this.promiseA = new Promise((resolve) => {
       this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenAPrefix, this.dbName, 2).then((hashValue) => {
-        console.log(hashValue);
+        //console.log(hashValue);
         self.EncryptionTokenAKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionTokenAPrefix),
           String2Buffer.base642b(hashValue)
@@ -35,7 +35,7 @@ export default class AuthoricatorImpl {
     });
     this.promiseB = new Promise((resolve) => {
       this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionTokenBPrefix, this.dbName, 3).then((hashValue) => {
-        console.log(hashValue);
+        //console.log(hashValue);
         self.EncryptionTokenBKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionTokenBPrefix),
           String2Buffer.base642b(hashValue)
@@ -49,7 +49,7 @@ export default class AuthoricatorImpl {
     });
     this.promiseC = new Promise((resolve) => {
       this.webCrypter.hash(this.appName + DLMT + userId, this.EncryptionUserIdPrefix, this.dbName, 4).then((hashValue) => {
-        console.log(hashValue);
+        //console.log(hashValue);
         self.EncryptionUserIdKey = String2Buffer.unitbs([
           String2Buffer.s2b(self.EncryptionUserIdPrefix),
           String2Buffer.base642b(hashValue)
@@ -110,8 +110,8 @@ export default class AuthoricatorImpl {
   }
   // あんまり進歩はありませんが、ここでカプセル化しておく。
   async encrypt(key, data) {
-    console.log(typeof key);
-    console.log(typeof data);
+    //console.log(typeof key);
+    //console.log(typeof data);
     let keyBuffer = typeof key === "string"
       ? String2Buffer.s2b(key)
       : key;
@@ -124,8 +124,8 @@ export default class AuthoricatorImpl {
   }
   // あんまり進歩はありませんが、ここでカプセル化しておく。
   async decrypt(key, data) {
-    console.log(typeof key);
-    console.log(typeof data);
+    //console.log(typeof key);
+    //console.log(typeof data);
     if (key === null || data === null) {
       throw "DECRYPTION_ERROR_DATA_IS_NULL key:" + key + "/data:" + data;
     }
