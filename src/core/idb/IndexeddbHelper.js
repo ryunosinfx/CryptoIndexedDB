@@ -133,7 +133,7 @@ export default class IndexeddbHelper {
   //Select In-line-return promise;Keyで返す。
   _selectByKey(tableName, key) {
     let self = this;
-    // console.log("IndexeddbHelper.selectByKey 1　"+key+"/"+"");
+    //console.log("IndexeddbHelper._selectByKey 01　tableName:"+tableName+"/key:"+key+"/"+"");
     return new Promise((resolve, reject) => {
       let request = self.indexedDB.open(self.dbName);
       request.onsuccess = (event) => {
@@ -152,7 +152,7 @@ export default class IndexeddbHelper {
         let objectStoreRequest = objectStore.get(key); //keyはsonomama
         objectStoreRequest.onsuccess = (event) => {
           let result = objectStoreRequest.result;
-          // console.log("IndexeddbHelper.selectByKey 2 "+result+" / "+key+"/"+tableName);
+          //console.log("IndexeddbHelper.selectByKey 02 result:"+JSON.stringify(result)+" / "+key+"/"+tableName);
           db.close();
           resolve(result);
         };
@@ -232,7 +232,9 @@ export default class IndexeddbHelper {
     return new Promise((resolve, reject) => {
       let keyPathValue = data[keyPathName];
 
+        //console.log("_insertUpdate!!!!!01 tableName:"+tableName+"/!!!!!!!!!!!!" + keyPathValue+ JSON.stringify(data));
       self._selectByKey(tableName, keyPathValue).then((value) => {
+          //    console.log("_insertUpdate!!!!!02 tableName:"+tableName+"/!!!!!!!!!!!!" + JSON.stringify(value));
         if (value === undefined) {
           let request = self.indexedDB.open(self.dbName);
           request.onsuccess = (event) => {
@@ -263,9 +265,10 @@ export default class IndexeddbHelper {
             };
           }
         } else {
+          //console.log("_insertUpdate!!!!!03 tableName:"+tableName+"/!!!!!!!!!!!!" + keyPathValue);
           self.update(tableName, keyPathName, data).then((value) => {
-            resolve();
-          });
+            resolve(value);
+          },(e) => {console.log("_insertUpdate!!!!!03 e:")+e;alert(e)});
         }
       });
     })
@@ -451,6 +454,30 @@ export default class IndexeddbHelper {
       };
     });
   };
+  isExistsObjectStore(tableName) {
+    let self = this;
+    return new Promise((resolve, reject) => {
+      let request = self.indexedDB.open(self.dbName);
+      request.onsuccess = (event) => {
+        let db = event.target.result;
+        let isExist = false;
+        for (let name of db.objectStoreNames) {
+          //console.log("isExistsObjectStore tableName:" + tableName + "/name:" + name);
+          if (name === tableName) {
+            isExist = true;
+            break;
+          }
+        }
+        db.close();
+        // console.log("IndexeddbHelper.getCurrentVersion version:"+version);
+        resolve(isExist);
+      };
+      request.onerror = (e) => {
+        reject(e);
+      };
+    });
+
+  }
   //public
   createStore(payload) {
     let {tableName, keyPathName, isAutoIncrement} = payload;
@@ -461,56 +488,64 @@ export default class IndexeddbHelper {
     let self = this;
     return new Promise((resolve, reject) => {
       // console.info("Object Store try create !"+tableName);
-      self.getCurrentVersion().then((version) => {
-        let newVersion = (version * 1) + 1; //計算結果を変数に代入すると行ける。
-        let request = null;
-        try{
-          console.log("self.dbName"+self.dbName+"/newVersion:"+newVersion);
-          //objectStore:"mLYZt0r50EZ3xWDEAJpODEFosbp-4c6Hq72I_zajqv4"
-          request = self.indexedDB.open(self.dbName, newVersion);
-        }catch(e){
-          console.log(e);
-          reject(e);
-        }
-        //let request = self.indexedDB.open(self.dbName, newVersion);
-        request.onerror = (event) => { //すでに有る場合
-          let db = event.target.result;
-          console.log("Why didn't you allow my web app to use IndexedDB?! A01_createStore");
-          resolve();
-        };
-        request.onsuccess = (event) => {
-          let db = event.target.result;
-          db.close();
-          // console.log("IndexeddbHelper createStore opened tableName:"+tableName+"/event.oldVersion:"+event.oldVersion);
-          resolve();
-        };
-        request.onupgradeneeded = (event) => {
-          let db = event.target.result;
-          // Create an objectStore for this database
-          try{
-            let isExist = false;
-            for(let name of db.objectStoreNames){
-              console.log("tableName:"+tableName+"/name:"+name);
-              if(name === tableName){
-                isExist = true;
-                break;
+      self.isExistsObjectStore(tableName).then((isExist) => {
+        if (isExist === false) {
+          self.getCurrentVersion().then((version) => {
+            let newVersion = (version * 1) + 1; //計算結果を変数に代入すると行ける。
+            let request = null;
+            try {
+              //console.log("self.dbName" + self.dbName + "/newVersion:" + newVersion);
+              //objectStore:"mLYZt0r50EZ3xWDEAJpODEFosbp-4c6Hq72I_zajqv4"
+              // tableName:mLYZt0r50EZ3xWDEAJpODEFosbp-4c6Hq72I_zajqv4
+              request = self.indexedDB.open(self.dbName, newVersion);
+            } catch (e) {
+              console.log(e);
+              reject(e);
+            }
+            //let request = self.indexedDB.open(self.dbName, newVersion);
+            request.onerror = (event) => { //すでに有る場合
+              let db = event.target.result;
+              console.log("Why didn't you allow my web app to use IndexedDB?! A01_createStore");
+              resolve();
+            };
+            request.onsuccess = (event) => {
+              let db = event.target.result;
+              db.close();
+              // console.log("IndexeddbHelper createStore opened tableName:"+tableName+"/event.oldVersion:"+event.oldVersion);
+              resolve();
+            };
+            request.onupgradeneeded = (event) => {
+              let db = event.target.result;
+              // Create an objectStore for this database
+              try {
+                let isExist = false;
+                for (let name of db.objectStoreNames) {
+                  //console.log("tableName:" + tableName + "/name:" + name);
+                  if (name === tableName) {
+                    isExist = true;
+                    break;
+                  }
+                }
+                if (isExist === false) {
+                  let objectStore = db.createObjectStore(tableName, {keyPath: keyPathName});
+                }
+              } catch (e) {
+                console.log(e);
               }
-            }
-            if(isExist === false){
-              let objectStore = db.createObjectStore(tableName, {keyPath: keyPathName});
-            }
-          }catch(e){
-            console.log(e);
-          }
 
-          //objectStore.createIndex(keyPath+"Index", keyPath, { unique: true });
-          // console.log("IndexeddbHelper createStore Yes! Succcess! tableName:"+tableName+"/keyPath:"+keyPath);
-          db.close();
+              //objectStore.createIndex(keyPath+"Index", keyPath, { unique: true });
+              // console.log("IndexeddbHelper createStore Yes! Succcess! tableName:"+tableName+"/keyPath:"+keyPath);
+              db.close();
+              resolve();
+            };
+          }, (e) => {
+            reject(e)
+          });
+        } else {
           resolve();
-        };
-      }, (e) => {
-        reject(e)
-      });
+        }
+      })
+
     });
   };
   //public

@@ -70,31 +70,39 @@ export default class AuthoricatorImpl {
   async crateCryptKeyTokenA(passwd) {
     let now = Date.now();
     let nowArry = (new Uint8Array(String2Buffer.s2b(now))).reverse();
-    return await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
+    let cryptKeyTokenA = await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
+    return String2Buffer.s2b(cryptKeyTokenA);
   }
   // トークンはArrayBuffer
   async crateCryptKeyTokenB(passwd, tokenA) {
     let now = Date.now();
     let nowArry = (new Uint8Array(String2Buffer.s2b(now))).reverse();
-    return await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain + DLMT + tokenA, this.dbName + DLMT, DLMT + this.appName);
+    let cryptKeyTokenB = await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain + DLMT + tokenA, this.dbName + DLMT, DLMT + this.appName);
+    return String2Buffer.s2b(cryptKeyTokenB);
   }
   // keyはArrayBuffer
   async createStep1CrypytKey(passwd) {
-    return await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + passwd + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
+    let step1CrypytKey = await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + passwd + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
+    return String2Buffer.s2b(step1CrypytKey);
   }
   async createTokenC(passwd) {
-    return await this.webCrypter.hash(this.userId + DLMT + passwd + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+    let tokenC = await this.webCrypter.hash(this.userId + DLMT + passwd + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+    return String2Buffer.s2b(tokenC);
   }
   async createTokenD(passwd) {
-    return await this.webCrypter.hash(this.userId + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+    let tokenD = await this.webCrypter.hash(this.userId + DLMT + this.ua, this.dbName + DLMT, DLMT + this.appName);
+    return String2Buffer.s2b(tokenD);
   }
   isEqualDualAllayBuffers(bufferA, bufferB) {
     return String2Buffer.b2Base64Url(bufferA) === String2Buffer.b2Base64Url(bufferB);
   }
   // keyはArrayBuffer
   async createStep2CrypytKey(passwdHash, tokenA, tokenB) {
-    let array = new Uint8Array(String2Buffer.unitbs(passwdHash, tokenA, tokenB));
-    return array.reverse().buffer;
+    if ((passwdHash instanceof ArrayBuffer) && (tokenA instanceof ArrayBuffer) && (tokenB instanceof ArrayBuffer)) {
+      let array = new Uint8Array(String2Buffer.unitbs(passwdHash, tokenA, tokenB));
+      return array.reverse().buffer;
+    }
+    return null;
   }
   // あんまり進歩はありませんが、ここでカプセル化しておく。
   async cryptTokenAbyKeyB(tokenA, keyB) {
@@ -110,56 +118,88 @@ export default class AuthoricatorImpl {
     let dataBuffer = typeof data === "string"
       ? String2Buffer.s2b(data)
       : data;
-    return await this.webCrypter.encrypt(keyBuffer, dataBuffer);
+    let encrypted = await this.webCrypter.encrypt(keyBuffer, dataBuffer);
+    // console.log("encrypt 001 keyBuffer:"+String2Buffer.b2Base64Url(keyBuffer)+"/data:"+data+"/encrypted:"+String2Buffer.b2Base64Url(encrypted));
+    return encrypted;
   }
   // あんまり進歩はありませんが、ここでカプセル化しておく。
   async decrypt(key, data) {
     console.log(typeof key);
     console.log(typeof data);
+    if (key === null || data === null) {
+      throw "DECRYPTION_ERROR_DATA_IS_NULL key:" + key + "/data:" + data;
+    }
     let keyBuffer = typeof key === "string"
       ? String2Buffer.s2b(key)
       : key;
     let dataBuffer = typeof data === "string"
       ? String2Buffer.s2b(data)
       : data;
+    // console.log("decrypt 001 keyBuffer:"+String2Buffer.b2Base64Url(keyBuffer)+"/data:"+data+"/encrypted:"+String2Buffer.b2Base64Url(dataBuffer));
     return await this.webCrypter.decrypt(keyBuffer, dataBuffer);
   }
   // なんか区分値テーブルも隠したくなった。
   async cratePropertieOSName() {
     let nameSeed = this.domain + DLMT + this.dbName + DLMT + this.appName + DLMT + this.userId;
-    let key = await this.webCrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName,100);
-    //alert(key+"/"+new Uint8Array(key));
+    //console.log("cratePropertieOSName 001" + nameSeed);
+    let key = await this.webCrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName, 100);
+    //alert(key+"/"+new Uint8Array(key))
+    //console.log("cratePropertieOSName 002" + key);
+    //console.log("cratePropertieOSName 003" + String2Buffer.b2Base64Url(String2Buffer.base642b(key)));
     return String2Buffer.b2Base64Url(String2Buffer.base642b(key));
   }
   async init() {
+    //console.log("init null is Valid 001:" + this.osName);
     if (this.osName === null) {
+      //console.log("init null is Valid 002:" + this.osName);
       this.osName = await this.cratePropertieOSName();
+      //console.log("init 003:" + this.osName);
       this.idbr = new idbr(this.osName);
+      //console.log("init 004:" + this.osName);
       try {
         await this.idbr.isFished();
       } catch (e) {
         // momiee
+        alert("init!!!!!!error!!!");
         alert(e);
       }
     }
   }
   async saveKeys(key, data) {
-    alert(data);
     let key4idb = (typeof key === "object")
       ? String2Buffer.b2Base64Url(key)
       : key;
+    //console.log("saveKeys 001" + key + "/" + this.init);
     if (!!this.idbr === false) {
+      //console.log("saveKeys 002" + key + "/" + this.init);
       await this.init();
     }
-    await this.idbr.saveDataDefault(key4idb, data);
+    try {
+      //console.log("saveKeys 003" + key + "/" + this.init);
+      await this.idbr.saveDataDefault(key4idb, data);
+    } catch (e) {
+      alert("init!!!!!!error!!!");
+      alert(e);
+    }
+    // console.log("saveKeys 004 SUCCESS!! :" + key4idb + "/" + String2Buffer.b2Base64Url(data));
   }
   async loadKeys(key) {
     let key4idb = (typeof key === "object")
       ? String2Buffer.b2Base64Url(key)
       : key;
+    //console.log("loadKeys 001" + this.init);
     if (!!this.idbr === false) {
+      //console.log("loadKeys 002" + this.init);
       await this.init();
     }
-    return await this.idbr.loadDataDefault(key4idb);
+    //console.log("loadKeys 003 this.idbr:" + !!this.idbr);
+    try {
+      let loaded = await this.idbr.loadDataDefault(key4idb);
+      // console.log("loadKeys 004 key4idb:"+key4idb+"/loaded:" +  String2Buffer.b2Base64Url(loaded));
+      return loaded;
+    } catch (e) {
+      alert("loadKeys!!!!!!error!!!");
+      alert(e);
+    }
   }
 }

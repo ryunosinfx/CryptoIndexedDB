@@ -45,6 +45,9 @@ export default class String2Buffer {
     return decodeURIComponent(escape(atob(str)));
   }
   static unitbs(segs) {
+    if(!!segs === false){
+      return null;
+    }
     let sumLength = 0;
     let coutSegs = segs.length;
     for (let i = 0; i < coutSegs; ++i) {
