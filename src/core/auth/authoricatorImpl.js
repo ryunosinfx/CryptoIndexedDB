@@ -69,14 +69,16 @@ export default class AuthoricatorImpl {
   // トークンはArrayBuffer
   async crateCryptKeyTokenA(passwd) {
     let now = Date.now();
-    let nowArry = (new Uint8Array(String2Buffer.s2b(now))).reverse();
+    let seed = now + DLMT + Math.floor(Math.random() * (parseInt(now) - 0 + 1)) + 0;
+    let nowArry = (new Uint8Array(String2Buffer.s2b(seed))).reverse();
     let cryptKeyTokenA = await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain, this.dbName + DLMT, DLMT + this.appName);
     return String2Buffer.s2b(cryptKeyTokenA);
   }
   // トークンはArrayBuffer
   async crateCryptKeyTokenB(passwd, tokenA) {
     let now = Date.now();
-    let nowArry = (new Uint8Array(String2Buffer.s2b(now))).reverse();
+    let seed = now + DLMT + Math.floor(Math.random() * (parseInt(now) - 0 + 1)) + 0;
+    let nowArry = (new Uint8Array(String2Buffer.s2b(seed))).reverse();
     let cryptKeyTokenB = await this.webCrypter.hash(this.appName + DLMT + this.userId + DLMT + String2Buffer.b2s(nowArry.buffer) + DLMT + this.ua + DLMT + this.domain + DLMT + tokenA, this.dbName + DLMT, DLMT + this.appName);
     return String2Buffer.s2b(cryptKeyTokenB);
   }
