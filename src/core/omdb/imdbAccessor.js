@@ -15,9 +15,10 @@ export default class EntityManager {
 
   }
   async save(entity){
-    //
+    // inmemoryOnly
   }
   async delete(entity){
+    // inmemoryOnly
 
   }
 }

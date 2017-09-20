@@ -1,22 +1,29 @@
 import constant from '../core/constant'
 import Authoricator from '../core/auth/authoricator'
+import DBSyncronizer from '../core/dbSyncroniser'
+import DBScanner from '../core/dbScanner'
 export default class EntityManager {
-  constructor(userId,passwd) {
+  constructor(userId, passwd) {
     this.constant = constant.dbName;
+    this.authoricator = new Authoricator();
+    this.dBSyncronizer = new DBSyncronizer(this.authoricator);
   }
-  async login(){
-
+  async login(userId, password) {
+    await this.authoricator.signin(userId, password);
   }
-  async logout(){
-
+  async logout() {}
+  async load(entity) {}
+  async save(entitys) {
+    await this.pushQueue("save", entitys);
   }
-  async load(entity){
-
+  async delete(entitys) {
+    await this.pushQueue("delete", entitys);
   }
-  async save(entity){
-
-  }
-  async delete(entity){
-
+  async pushQueue(command, entitys) {
+    let targets = entitys;
+    if (Array.isArray(entitys) === false) {
+      targets = [entitys];
+    }
+    await this.dBSyncronizer.pushQueue({command: command, targets: targets});
   }
 }

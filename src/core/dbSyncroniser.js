@@ -5,7 +5,7 @@ const dbSyncronizeQueue = [];
 
 const dbsImpl = null;
 const deserializer = (dataBuffer) {}
-const serializ = (resultData = {}, entity) {
+const serialize = (resultData = {}, entity) {
   let type = entity.constructor.name;
   let serialData = {};
   let serial = {
@@ -21,7 +21,7 @@ const serializ = (resultData = {}, entity) {
         key: entity.pk
       };
       serialData[key] = ref;
-      serializ(resultData,value);
+      serialize(resultData,value);
     } else {
       serialData[key] = value;
     }
@@ -34,39 +34,61 @@ const serializ = (resultData = {}, entity) {
 }
 class DBSyncronizerImpl {
   constructor(authoricator) {
+    this.isIgnited = false;
     this.authoricator = authoricator;
   }
   ignition() {
+    if(this.isIgnited){
+      return ;
+    }
+    this.isIgnited = true;
     while (true) {
       this.unshiftQueue();
     }
   }
   shiftQueue() {
     if (dbSyncronizeQueue.length > 0) {
-      let terget = dbSyncronizeQueue.shift();
-      this.execute(terget)；
+      let targetsWithCommand = dbSyncronizeQueue.shift();
+      this.execute(targetsWithCommand)；
     }
     // Call at One thead!
   }
-  execute(tergets) {
+  async execute(targetsWithCommand) {
+    let tergets = targetsWithCommand.targets;
+      let command = targetsWithCommand.command;
     for (let target of tergets) {
 
-      if (Object.getPrototypeOf(Object.getPrototypeOf(terget)) === Entity) {}
+      if (Object.getPrototypeOf(Object.getPrototypeOf(terget)) === Entity) {
+        if(command === "delete"){
+          await this.dalete(terget);
+        }else{
+          await this.save(terget);
+        }
+      }
 
     }
   }
+  async save(){
+
+  }
+  async delete(){
+
+  }
 }
+//外部インターフェイス
 export default class DBSyncronizer {
   constructor(authoricator) {
+    // singleton
     if (dbsImpl === null) {
       dbsImpl = new DBSyncronizerImpl(authoricator);
     }
     this.authoricator = authoricator;
   }
 
-  pushQueue(targets) {
-    if (targets) {
-      dbSyncronizeQueue.push(targets);
+  pushQueue(targetsWithCommand) {
+    dbsImpl.ignition();
+    if (targetsWithCommand) {
+      dbSyncronizeQueue.push(targetsWithCommand);
     }
   }
 }
