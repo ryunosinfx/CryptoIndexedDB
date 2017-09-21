@@ -7,12 +7,18 @@ export default class EntityManager {
     this.constant = constant.dbName;
     this.authoricator = new Authoricator();
     this.dBSyncronizer = new DBSyncronizer(this.authoricator);
+    this.dbScanner = new DBScanner(this.authoricator);
   }
   async login(userId, password) {
     await this.authoricator.signin(userId, password);
+    //fullLoad
+    
   }
   async logout() {}
-  async load(entity) {}
+  async load(entity) {
+
+
+  }
   async save(entitys) {
     await this.pushQueue("save", entitys);
   }

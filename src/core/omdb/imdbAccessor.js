@@ -2,13 +2,18 @@ import constant from '../constant'
 import Authoricator from '../auth/authoricator'
 const inMemoryDB = {};
 export default class EntityManager {
-  constructor(userId,passwd) {
-    this.constant = constant.dbName;
+  constructor(authoricator) {
+    this.authoricator = authoricator;
   }
-  async login(){
+  async init(){
+    for(let key in inMemoryDB){
+      delete inMemoryDB[key];
+    }
+  }
+  async fullLoad(){
 
   }
-  async logout(){
+  async singleLoad(key){
 
   }
   async load(entity){

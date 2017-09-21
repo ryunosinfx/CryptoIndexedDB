@@ -454,6 +454,21 @@ export default class IndexeddbHelper {
       };
     });
   };
+  getObjectStoreNames() {
+    let self = this;
+    return new Promise((resolve, reject) => {
+      let request = self.indexedDB.open(self.dbName);
+      request.onsuccess = (event) => {
+        let db = event.target.result;
+        let names = db.objectStoreNames;
+        db.close();
+        resolve(names);
+      };
+      request.onerror = (e) => {
+        reject(e);
+      };
+    });
+  ｝；
   isExistsObjectStore(tableName) {
     let self = this;
     return new Promise((resolve, reject) => {

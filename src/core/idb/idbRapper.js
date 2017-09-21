@@ -67,5 +67,7 @@ export default class IdbRapper {
     }
     return null;
   }
-
+  async getOsNames(){
+      return await this.idbh.getObjectStoreNames();
+  }
 }
