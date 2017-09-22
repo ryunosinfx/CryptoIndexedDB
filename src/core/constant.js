@@ -7,5 +7,6 @@ export default {
   iv:"ECIDBEMiv🚉出ベム",
   strechCount:1020,
   appName:"粋帑篇-ECIDBEM-",
-  sysPrefix:"SYS"
+  sysPrefix:"SYS",
+  encPrefix:"ENC"
 }
