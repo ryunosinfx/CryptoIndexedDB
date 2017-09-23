@@ -5,55 +5,80 @@ const impl = null;
 const idbWrppers = {};
 class DBControlUtilImpl {
   constructor(authoricator) {
-      this.authoricator = authoricator;
-      this.idbr = new idbr(constant.sysPrefix);
-      this.isLoaded = false;
+    this.authoricator = authoricator;
+    this.idbr = new idbr(constant.sysPrefix);
+    this.isLoaded = false;
   }
-  async reload(entity){
+  async reload(entity) {
     var idbr = new idbr(constant.sysPrefix);
   }
-  async loadIDBWrappers(){
+  async loadIDBWrappers() {
     let osNames = await this.idbr.getOsNames();
     let encPrefix = constant.encPrefix;
     let encPrefixLength = encPrefix.length;
-    let variantLength = 3 ;
+    let variantLength = 3;
     let osNameLength = variantLength + encPrefixLength;
-    for(let osName of osNames){
-      if(osName.indexOf(encPrefix) === 0 && osName.length === osNameLength){
+    for (let osName of osNames) {
+      if (osName.indexOf(encPrefix) === 0 && osName.length === osNameLength) {
         let key = osName.substring(encPrefixLength, osNameLength);
-        idbWrppers[key] = new idbr(key);
+        idbWrppers[key] = new idbr(osName);
       }
     }
     this.isLoaded = true;
   }
-  async addIDBWrapper(entity){
-
+  async setPkHash(entity) {
+    let pk = entity.pk;
+    let entityName = entity.constructor.name;
+    let pkHash = await this.authoricator.crateOSName(entityName, pk);
+    let key = pkHash.substring(0, 2);
+    let osName = constant.encPrefix + key;
+    entity.pkHash = pkHash;
+    if (idbWrppers[key] === undefined) {
+      idbWrppers[key] = new idbr(osName);
+    }
+    return idbWrppers[key];
   }
-  async getAllIDBWrappers(){
-    return this.isLoaded? idbWrppers : awate this.loadIDBWrappers();
+  async getAllIDBWrappers() {
+    return this.isLoaded
+      ? idbWrppers
+      : awate this.loadIDBWrappers();
+  }
+  async decrypData(encryptedData) {
+    try {
+      return await this.authoricator.decrypt(encryptedData);
+    } catch (e) {
+      return null;
+    }
   }
 }
+
 ///////////////////////////////////////////////////////////
 export default class DBControlUtil {
   constructor(authoricator) {
-      if(impl === null){
-        impl = new DBControlUtilImpl();
-      }
-  }
-  async getIDBWrapper(entity){
-    let pk = entity.pk;
-    // key
-    let idbr = new idbr(constant.sysPrefix);
-  }
-  async getAllIDBWrappers(){
-    for(){
-
+    if (impl === null) {
+      impl = new DBControlUtilImpl();
     }
   }
-  async singleLoad(key){
-
+  async getIDBWrapper(entity) {
+    return await impl.setPkHash(entity);
   }
-  async loadBinaryData(key){
-
+  async getAllIDBWrappers() {
+    return await impl.getAllIDBWrappers();
   }
+  async singleLoad(entity) {
+    let idbr = awaite this.getIDBWrapper(entity);
+  }
+  async decrypDataList(DataList) {
+    let resultList = [];
+    for (let planeData of dataList) {
+      let pkHash = planeData.pk;
+      let encryptedData = planeData.data;
+      let decryptedData = await imple.decrypData(encryptedData);
+      if (decryptedData !== null) {
+        resultList.push(decryptedData);
+      }
+    }
+    return resultList;
+  }
+  async loadBinaryData(key) {}
 }

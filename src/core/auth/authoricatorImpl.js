@@ -140,14 +140,16 @@ export default class AuthoricatorImpl {
     // console.log("decrypt 001 keyBuffer:"+String2Buffer.b2Base64Url(keyBuffer)+"/data:"+data+"/encrypted:"+String2Buffer.b2Base64Url(dataBuffer));
     return await this.webCrypter.decrypt(keyBuffer, dataBuffer);
   }
-  // なんか区分値テーブルも隠したくなった。
+  // 区分値テーブルも隠す
   async cratePropertieOSName() {
     let nameSeed = this.domain + DLMT + this.dbName + DLMT + this.appName + DLMT + this.userId;
-    //console.log("cratePropertieOSName 001" + nameSeed);
     let key = await this.webCrypter.hash(nameSeed, this.dbName + DLMT, DLMT + this.appName, 100);
-    //alert(key+"/"+new Uint8Array(key))
-    //console.log("cratePropertieOSName 002" + key);
-    //console.log("cratePropertieOSName 003" + String2Buffer.b2Base64Url(String2Buffer.base642b(key)));
+    return String2Buffer.b2Base64Url(String2Buffer.base642b(key));
+  }
+  // key1 is EntityName, key2 is pk.
+  async crateOSName(key1,key2="") {
+    let nameSeed = this.domain + DLMT + key1 + DLMT + this.appName + DLMT + this.userId;
+    let key = await this.webCrypter.hash(nameSeed, key2 + DLMT, DLMT + this.appName, 10);
     return String2Buffer.b2Base64Url(String2Buffer.base642b(key));
   }
   async init() {
