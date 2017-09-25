@@ -1,37 +1,12 @@
 import constant from './constant'
 import Authoricator from './auth/authoricator'
 import Entity from '../entity/entity'
+import Entity from '../entity/entity'
 const dbSyncronizeQueue = [];
 
-const dbsImpl = null;
-const deserializer = (dataBuffer) {}
-const serialize = (resultData = {}, entity) {
-  let type = entity.constructor.name;
-  let serialData = {};
-  let serial = {
-    pk: entity.pk,
-    type: type,
-    data: serialData
-  };
-  for (let key in entity) {
-    let value = entity[key];
-    if (Object.getPrototypeOf(Object.getPrototypeOf(terget)) === Entity) {
-      let ref = {
-        type: "ref",
-        key: entity.pk
-      };
-      serialData[key] = ref;
-      serialize(resultData,value);
-    } else {
-      serialData[key] = value;
-    }
-  }
-  if(!!entity.isUpdated === false){
-    return resultData;
-  }
-  resultData[entity.pk] = JSON.sringify(serial);
-  return resultData;
+const dbsImpl = null;resultData;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////
 class DBSyncronizerImpl {
   constructor(authoricator) {
     this.isIgnited = false;
@@ -43,7 +18,7 @@ class DBSyncronizerImpl {
     }
     this.isIgnited = true;
     while (true) {
-      this.unshiftQueue();
+      this.shiftQueue();
     }
   }
   shiftQueue() {
@@ -68,10 +43,10 @@ class DBSyncronizerImpl {
 
     }
   }
-  async save(){
+  async save(terget){
 
   }
-  async delete(){
+  async delete(terget){
 
   }
 }

@@ -50,35 +50,75 @@ class DBControlUtilImpl {
       return null;
     }
   }
-}
 
-///////////////////////////////////////////////////////////
-export default class DBControlUtil {
-  constructor(authoricator) {
-    if (impl === null) {
-      impl = new DBControlUtilImpl();
-    }
+  async deserializer(dataBuffer) {
+    
   }
-  async getIDBWrapper(entity) {
-    return await impl.setPkHash(entity);
-  }
-  async getAllIDBWrappers() {
-    return await impl.getAllIDBWrappers();
-  }
-  async singleLoad(entity) {
-    let idbr = awaite this.getIDBWrapper(entity);
-  }
-  async decrypDataList(DataList) {
-    let resultList = [];
-    for (let planeData of dataList) {
-      let pkHash = planeData.pk;
-      let encryptedData = planeData.data;
-      let decryptedData = await imple.decrypData(encryptedData);
-      if (decryptedData !== null) {
-        resultList.push(decryptedData);
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  async serialize(entity, resultData = {}, pkHashCalced) {
+    let pk = entity.pk;
+    let entityName = entity.constructor.name;
+    let pkHash = pkHashCalced !== undefined ? pkHashCalced:await this.authoricator.crateOSName(entityName, pk);
+    let serialData = {};
+    let serial = {
+      pk: pkHash,
+      type: entityName,
+      data: serialData
+    };
+    for (let key in entity) {
+      let value = entity[key];
+      if (Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
+        let pkChild = value.pk;
+        let entityNameChild = value.constructor.name;
+        let pkHashChiled = await this.authoricator.crateOSName(entityNameChild, pkChild, pkHashChiled);
+        let ref = {
+          type: "ref",
+          key: pkHashChiled
+        };
+        serialData[key] = ref;
+        serialize(value, resultData);
+      } else {
+        serialData[key] = value;
       }
     }
-    return resultList;
+    if (!!entity.isUpdated === false) {
+      return resultData;
+    }
+    resultData[pkHash] = JSON.sringify(serial);
+    return
   }
-  async loadBinaryData(key) {}
-}
+
+  ///////////////////////////////////////////////////////////
+  export default class DBControlUtil {
+    constructor(authoricator) {
+      if (impl === null) {
+        impl = new DBControlUtilImpl();
+      }
+    }
+    async getIDBWrapper(entity) {
+      return await impl.setPkHash(entity);
+    }
+    async getAllIDBWrappers() {
+      return await impl.getAllIDBWrappers();
+    }
+    async singleLoad(entity) {
+      let idbr = awaite this.setPkHash(entity);
+      let pkHash = entity.pkHash;
+      let encrypted = await idbr.loadDataDefault(pkHash);
+      let decryptedData = await imple.decrypData(encryptedData);
+      if (decryptedData !== null) {}
+    }
+    async decrypDataList(DataList) {
+      let resultList = [];
+      for (let planeData of dataList) {
+        let pkHash = planeData.pk;
+        let encryptedData = planeData.data;
+        let decryptedData = await imple.decrypData(encryptedData);
+        if (decryptedData !== null) {
+          resultList.push(decryptedData);
+        }
+      }
+      return resultList;
+    }
+    async loadBinaryData(key) {}
+  }

@@ -10,12 +10,6 @@ export default class EntityManager {
       delete inMemoryDB[key];
     }
   }
-  async fullLoad(){
-
-  }
-  async singleLoad(key){
-
-  }
   async load(entity){
 
   }
@@ -24,6 +18,6 @@ export default class EntityManager {
   }
   async delete(entity){
     // inmemoryOnly
-
+    let entityName = 
   }
 }
