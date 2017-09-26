@@ -3,6 +3,7 @@ import idbr from './idb/idbRapper'
 import Entity from '../entity/entity'
 const impl = null;
 const idbWrppers = {};
+const entityClasses = {};
 class DBControlUtilImpl {
   constructor(authoricator) {
     this.authoricator = authoricator;
@@ -50,18 +51,30 @@ class DBControlUtilImpl {
       return null;
     }
   }
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  deserialize(jsonString) {
+    let dataObj = JSON.parse(jsonString);
+    let {pk, originPk, type, data} = dataObj;
+    let entityClass = entityClasses[type];
+    if(entityClass){
+      let entityInstance = new entityClass(originPk,data,pk);
+      return entityInstance;
+    }else{
 
-  async deserializer(dataBuffer) {
-    
+    }
+    return null;
   }
   ///////////////////////////////////////////////////////////////////////////////////////////////
   async serialize(entity, resultData = {}, pkHashCalced) {
     let pk = entity.pk;
     let entityName = entity.constructor.name;
-    let pkHash = pkHashCalced !== undefined ? pkHashCalced:await this.authoricator.crateOSName(entityName, pk);
+    let pkHash = pkHashCalced !== undefined
+      ? pkHashCalced
+      : await this.authoricator.crateOSName(entityName, pk);
     let serialData = {};
     let serial = {
       pk: pkHash,
+      originPk: pk,
       type: entityName,
       data: serialData
     };
@@ -87,38 +100,70 @@ class DBControlUtilImpl {
     resultData[pkHash] = JSON.sringify(serial);
     return
   }
-
-  ///////////////////////////////////////////////////////////
-  export default class DBControlUtil {
-    constructor(authoricator) {
-      if (impl === null) {
-        impl = new DBControlUtilImpl();
-      }
-    }
-    async getIDBWrapper(entity) {
-      return await impl.setPkHash(entity);
-    }
-    async getAllIDBWrappers() {
-      return await impl.getAllIDBWrappers();
-    }
-    async singleLoad(entity) {
-      let idbr = awaite this.setPkHash(entity);
-      let pkHash = entity.pkHash;
-      let encrypted = await idbr.loadDataDefault(pkHash);
-      let decryptedData = await imple.decrypData(encryptedData);
-      if (decryptedData !== null) {}
-    }
-    async decrypDataList(DataList) {
-      let resultList = [];
-      for (let planeData of dataList) {
-        let pkHash = planeData.pk;
-        let encryptedData = planeData.data;
-        let decryptedData = await imple.decrypData(encryptedData);
-        if (decryptedData !== null) {
-          resultList.push(decryptedData);
-        }
-      }
-      return resultList;
-    }
-    async loadBinaryData(key) {}
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  registerEntity(entity){
+    let entityName = entity.constructor.name;
+    entityClasses[entityName] = entity.prototype;
   }
+}
+///////////////////////////////////////////////////////////
+export default class DBControlUtil {
+  constructor(authoricator) {
+    if (impl === null) {
+      impl = new DBControlUtilImpl();
+    }
+  }
+  async getIDBWrapper(entity) {
+    return await impl.setPkHash(entity);
+  }
+  async getAllIDBWrappers() {
+    return await impl.getAllIDBWrappers();
+  }
+  async singleLoad(entity) {
+    let idbr = awaite this.setPkHash(entity);
+    let pkHash = entity.pkHash;
+    let encrypted = await idbr.loadDataDefault(pkHash);
+    let decryptedData = await imple.decrypData(encryptedData);
+    if (decryptedData !== null) {
+        let entity = imple.deserialize(decryptedData);
+        if(entity!==null){
+          return entity;
+        }
+    }
+    return null;
+  }
+  async decrypEntityMap(DataList) {{
+    let resultMap = {};
+    let decrypDataList = await this.decrypDataList(DataList);
+    for(let jsonRecode of decrypDataList){
+      let entity = imple.deserialize(jsonRecode);
+      if(entity!== null){
+        let entityName = entity.constructor.name;
+        let list = resultMap[entityName];
+        if(list === undefined){
+          list = [];
+          resultMap[entityName] = list;
+        }
+        list.push(entity);
+      }
+    }
+    return resultMap;
+  }
+  async decrypDataList(DataList) {
+    let resultList = [];
+    for (let planeData of dataList) {
+      let pkHash = planeData.pk;
+      let encryptedData = planeData.data;
+      let decryptedData = await imple.decrypData(encryptedData);
+      if (decryptedData !== null) {
+        resultList.push(decryptedData);
+      }
+    }
+    return resultList;
+  }
+  async loadBinaryData(key) {}
+  //　この処理がEntity定義地に呼ばれることを
+  registerEntity(entity){
+    impl.registerEntity(entity);
+  }
+}

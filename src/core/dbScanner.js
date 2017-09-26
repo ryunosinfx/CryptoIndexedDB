@@ -14,7 +14,8 @@ export default class DBScanner {
     let idbrs = await this.dbControlUtil.getAllIDBWrappers();
     for(let idbr of idbrs){
       let dataList = await idbr.loadAllData();
-      let planeList = await this.dbControlUtil.decrypDataList(dataList);
+      let dataMap = await this.decrypEntityMap.decrypDataList(dataList);
+
     }
   }
   async singleLoad(key){

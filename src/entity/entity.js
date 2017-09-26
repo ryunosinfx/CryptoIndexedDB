@@ -1,9 +1,10 @@
 import constant from '../core/constant'
 
 export default class Entity {
-  constructor(key, data = null) {
+  constructor(key, data = null, pkHash = null) {
     this.constant = constant.dbName;
     this.pk = key;
+    this.pkHash = pkHash;
     this.origin = data;
     this.update = {};
     this.isInTranzaction = false;
@@ -28,7 +29,7 @@ export default class Entity {
     if(this.isInTranzaction && this.update[propName] !== undefined){
       return this.update[propName];
     }
-    return this.origin[propName];
+    return this.origin===null? null :this.origin[propName];
   }
   set(propName,value){
     this.update[propName] = value;

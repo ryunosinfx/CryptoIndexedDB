@@ -12,7 +12,7 @@ export default class EntityManager {
   async login(userId, password) {
     await this.authoricator.signin(userId, password);
     //fullLoad
-    
+
   }
   async logout() {}
   async load(entity) {
