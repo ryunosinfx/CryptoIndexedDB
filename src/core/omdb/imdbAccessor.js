@@ -21,10 +21,11 @@ export default class ImdbAccessor {
       let entityList = dataMap[entityName];
       let imdbEntities = inMemoryDB[entityName];
       if (imdbEntities === undefined) {
-        imdbEntitiesMap = {};
+        imdbEntities = {};
+        inMemoryDB[entityName] = imdbEntities;
       }
       for (let imdbEntity of imdbEntities) {
-        imdbEntitiesMap[imdbEntity.pk] = imdbEntity;
+        imdbEntities[imdbEntity.pk] = imdbEntity;
       }
     }
   }
@@ -33,10 +34,15 @@ export default class ImdbAccessor {
     let entityName = entity.constructor.name;
     let imdbEntities = inMemoryDB[entityName];
     if (imdbEntities !== undefined) {
-      delete imdbEntitiesMap[entity.pk];
+      delete imdbEntities[entity.pk];
     }
   }
-  select(){
+  select(entity){
+  let entityName = entity.constructor.name;
+  let imdbEntities = inMemoryDB[entityName];
+  if (imdbEntities !== undefined) {
+
+  }
 
   }
 }

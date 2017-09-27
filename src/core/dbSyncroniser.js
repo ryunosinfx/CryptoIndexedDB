@@ -43,11 +43,11 @@ class DBSyncronizerImpl {
 
     }
   }
-  async save(terget){
+  async save(entity){
 
   }
-  async delete(terget){
-
+  async delete(entity){
+    
   }
 }
 //外部インターフェイス

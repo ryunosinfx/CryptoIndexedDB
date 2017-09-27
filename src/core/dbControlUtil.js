@@ -132,6 +132,14 @@ export default class DBControlUtil {
     }
     return null;
   }
+  async decryptEntity(encryptedData) {{
+    let decrypDataList = await this.decrypDataList([encryptedData]]);
+    for(let jsonRecode of decrypDataList){
+      let entity = imple.deserialize(jsonRecode);
+      return entity;
+    }
+    return null;
+  }
   async decrypEntityMap(DataList) {{
     let resultMap = {};
     let decrypDataList = await this.decrypDataList(DataList);

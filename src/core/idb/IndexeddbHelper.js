@@ -468,7 +468,7 @@ export default class IndexeddbHelper {
         reject(e);
       };
     });
-  ｝；
+  }
   isExistsObjectStore(tableName) {
     let self = this;
     return new Promise((resolve, reject) => {

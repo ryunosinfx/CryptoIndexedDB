@@ -6,7 +6,6 @@ export default class EntityManager {
   constructor(userId, passwd) {
     this.constant = constant.dbName;
     this.authoricator = new Authoricator();
-    this.dBSyncronizer = new DBSyncronizer(this.authoricator);
     this.dbScanner = new DBScanner(this.authoricator);
   }
   async login(userId, password) {
