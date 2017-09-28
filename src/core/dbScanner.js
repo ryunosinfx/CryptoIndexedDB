@@ -7,7 +7,7 @@ export default class DBScanner {
   constructor(authoricator) {
       this.authoricator = authoricator;
       this.dbControlUtil = new DBControlUtil(authoricator);
-      this.dBSyncronizer = new DBSyncronizer(this.authoricator);
+      this.dBSyncronizer = new DBSyncronizer(authoricator,imdbAccessor);
       this.idbr = new idbr(constant.sysPrefix);
   }
   async reload(entity){

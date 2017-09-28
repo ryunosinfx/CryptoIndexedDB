@@ -7,6 +7,7 @@ export default class EntityManager {
     this.constant = constant.dbName;
     this.authoricator = new Authoricator();
     this.dbScanner = new DBScanner(this.authoricator);
+    this.dBSyncronizer = this.dbScanner.dBSyncronizer;
   }
   async login(userId, password) {
     await this.authoricator.signin(userId, password);

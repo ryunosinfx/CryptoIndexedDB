@@ -2,19 +2,21 @@ import constant from './constant'
 import Authoricator from './auth/authoricator'
 import Entity from '../entity/entity'
 import Entity from '../entity/entity'
+import DBControlUtil from './dbControlUtil'
 const dbSyncronizeQueue = [];
 
-const dbsImpl = null;resultData;
-}
+const dbsImpl = null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 class DBSyncronizerImpl {
-  constructor(authoricator) {
+  constructor(authoricator, imdbAccessor) {
     this.isIgnited = false;
-    this.authoricator = authoricator;
+    this.dbControlUtil = new DBControlUtil(authoricator);
+    this.imdbAccessor = imdbAccessor;
   }
   ignition() {
-    if(this.isIgnited){
-      return ;
+    if (this.isIgnited) {
+      return;
     }
     this.isIgnited = true;
     while (true) {
@@ -30,24 +32,24 @@ class DBSyncronizerImpl {
   }
   async execute(targetsWithCommand) {
     let tergets = targetsWithCommand.targets;
-      let command = targetsWithCommand.command;
+    let command = targetsWithCommand.command;
     for (let target of tergets) {
-
       if (Object.getPrototypeOf(Object.getPrototypeOf(terget)) === Entity) {
-        if(command === "delete"){
+        if (command === "delete") {
           await this.dalete(terget);
-        }else{
+        } else {
           await this.save(terget);
         }
       }
-
     }
   }
-  async save(entity){
-
+  async save(entity) {
+    let saveDataMap = await this.dbControlUtil.saveAsEncryptedData(entity);
+    this.imdbAccessor.loadByMap(saveDataMap);
   }
-  async delete(entity){
-    
+  async delete(entity) {
+    await this.dbControlUtil.delete(entity);
+    this.imdbAccessor.delete(entity);
   }
 }
 //外部インターフェイス
@@ -57,7 +59,6 @@ export default class DBSyncronizer {
     if (dbsImpl === null) {
       dbsImpl = new DBSyncronizerImpl(authoricator);
     }
-    this.authoricator = authoricator;
   }
 
   pushQueue(targetsWithCommand) {
