@@ -36,4 +36,7 @@ export default class DBScanner {
   async loadBinaryData(key){
 
   }
+  select(entity){
+    return imdbAccessor.select(entity);
+  }
 }

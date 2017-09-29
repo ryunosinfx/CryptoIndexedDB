@@ -38,11 +38,35 @@ export default class ImdbAccessor {
     }
   }
   select(entity){
-  let entityName = entity.constructor.name;
-  let imdbEntities = inMemoryDB[entityName];
-  if (imdbEntities !== undefined) {
+    if (entity!= null && Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
+      let conditions = entity.getAsContions();
+      let entityName = entity.constructor.name;
+      let imdbEntities = inMemoryDB[entityName];
+      let conditions = {};
+      for(let key in entity){
+        let value = entity[key];
+      }
+      if (imdbEntities !== undefined) {
+        for(let record in imdbEntities){
+
+        }
+      }
+    }else{
+      console.log("entity is unsetted!!!");
+    }
+  }
+  selectSingle(entityName, pk){
+    let imdbEntities = inMemoryDB[entityName];
+    if (imdbEntities !== undefined) {
+      for(let record in imdbEntities){
+
+      }
+    }
 
   }
+  getAsFullCennectiond(entity){
+    for(){
 
+    }
   }
 }

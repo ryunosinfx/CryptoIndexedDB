@@ -35,4 +35,15 @@ export default class Entity {
     this.update[propName] = value;
     this.isUpdated = true;
   }
+  // XQLを考えると、Queryが存在して、from,Where(and,or,in,between,exists),groupby,having,orderby,がある。
+  getAsContions(){
+    let contions = {};
+    for(let propName in this.update){
+      let propValue = this.update[propName];
+      if(propValue !== undefined) {
+        contions[propName] = propValue;
+      }
+    }
+    return contions;
+  }
 }
