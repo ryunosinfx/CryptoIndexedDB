@@ -76,20 +76,44 @@ class DBControlUtilImpl {
       type: entityName,
       data: serialData
     };
+    //中間にObjectを絶対挟まないこと
     for (let key in entity) {
       let value = entity[key];
-      if (Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
-        let pkChild = value.pk;
-        let entityNameChild = value.constructor.name;
-        let pkHashChiled = await this.authoricator.crateOSName(entityNameChild, pkChild, pkHashChiled);
-        let ref = {
-          type: "ref",
-          key: pkHashChiled
-        };
-        serialData[key] = ref;
-        serialize(value, resultData);
+      if (Array.isArray(value)) {
+        let tempArray = [];
+        for (let index in value) {
+          let recode = value[index];
+          if (Object.getPrototypeOf(Object.getPrototypeOf(recode)) === Entity) {
+            let pkChild = recode.pk;
+            let entityNameChild = recode.constructor.name;
+            let pkHashChiled = await this.authoricator.crateOSName(entityNameChild, pkChild, pkHashChiled);
+            let ref = {
+              type: "ref",
+              key: pkHashChiled
+            };
+            tempArray.push(ref);
+            serialData[key] = ref;
+            serialize(recode, resultData);
+          } else {
+            tempArray.push(recode);
+          }
+        }
+        serialData[key] = tempArray;
       } else {
-        serialData[key] = value;
+        if (Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
+          let pkChild = value.pk;
+          let entityNameChild = value.constructor.name;
+          let pkHashChiled = await this.authoricator.crateOSName(entityNameChild, pkChild, pkHashChiled);
+          let ref = {
+            type: "ref",
+            key: pkHashChiled
+          };
+          serialData[key] = ref;
+          serialize(value, resultData);
+        } else {
+          serialData[key] = value;
+        }
+
       }
     }
     if (!!entity.isUpdated === false) {

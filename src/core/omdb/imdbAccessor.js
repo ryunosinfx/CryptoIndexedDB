@@ -59,14 +59,20 @@ export default class ImdbAccessor {
     let imdbEntities = inMemoryDB[entityName];
     if (imdbEntities !== undefined) {
       for(let record in imdbEntities){
-
+          if(record.pk===pk){
+            return record;
+          }
       }
     }
-
+    return null;
   }
-  getAsFullCennectiond(entity){
-    for(){
-
+  getAsFullRelated(entity){
+    let data = entity.origin;
+    for(let key in data){//refで入っているので
+      let value =data[key];
+      if(typeof value === "object" && value.tyep === "ref"){
+          value.keys;
+      }
     }
   }
 }
