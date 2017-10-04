@@ -16,13 +16,14 @@
   ],
   "author": "RyunosinFX",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "snabbdom": "^0.7.0"
+  },
   "devDependencies": {
     "css-loader": "^0.25.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.6.0",
     "file-loader": "^0.9.0",
-    "snabbdom": "^0.7.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"

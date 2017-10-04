@@ -1,5 +1,7 @@
 import constant from '../constant'
 import Authoricator from '../auth/authoricator'
+import Range from '../../entity/range'
+import Entity from '../../entity/entity'
 const inMemoryDB = {};
 export default class ImdbAccessor {
   constructor() {}
@@ -37,42 +39,66 @@ export default class ImdbAccessor {
       delete imdbEntities[entity.pk];
     }
   }
-  select(entity){
-    if (entity!= null && Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
+  select(entity) {
+    if (entity != null && Object.getPrototypeOf(Object.getPrototypeOf(entity)) === Entity) {
       let conditions = entity.getAsContions();
       let entityName = entity.constructor.name;
       let imdbEntities = inMemoryDB[entityName];
       let conditions = {};
-      for(let key in entity){
-        let value = entity[key];
+      for (let key in conditions) {
+        let value = conditions[key];
+        if(Object.getPrototypeOf(entity)=== range){
+          if(){
+
+          }
+        }
       }
       if (imdbEntities !== undefined) {
-        for(let record in imdbEntities){
+        for (let record in imdbEntities) {
 
         }
       }
-    }else{
+    } else {
       console.log("entity is unsetted!!!");
     }
   }
-  selectSingle(entityName, pk){
+  selectList(entityName, ...pks) {
+    if (Arrays.isArray(pks) === false) {
+      return this.selectSingle(entityName, pks);
+    }
     let imdbEntities = inMemoryDB[entityName];
     if (imdbEntities !== undefined) {
-      for(let record in imdbEntities){
-          if(record.pk===pk){
-            return record;
+      let retList = [];
+      for (let record in imdbEntities) {
+        for (let pk of pks) {
+          if (record.pk === pk) {
+            retList.push(this.getAsFullRelated(record));
           }
+        }
+      }
+      return retList;
+    }
+    return [];
+  }
+  selectSingle(entityName, pk) {
+    let imdbEntities = inMemoryDB[entityName];
+    if (imdbEntities !== undefined) {
+      for (let record in imdbEntities) {
+        if (record.pk === pk) {
+          return this.getAsFullRelated(record);
+        }
       }
     }
     return null;
   }
-  getAsFullRelated(entity){
+  getAsFullRelated(entity) {
     let data = entity.origin;
-    for(let key in data){//refで入っているので
-      let value =data[key];
-      if(typeof value === "object" && value.tyep === "ref"){
-          value.keys;
+    for (let key in data) { //refで入っているので
+      let value = data[key];
+      if (typeof value === "object" && value.tyep === "ref") {
+        data[key] = this.selectList(value.keys);
       }
     }
+    return entity；
   }
 }

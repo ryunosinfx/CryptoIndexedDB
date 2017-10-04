@@ -7,7 +7,12 @@ export default class Query {
     this.having;
     this.orderby;
   }
-  select(columns ...) {
+  select(...columns ) {
+    if(){
+
+    }
+    if (entity!= null && Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
+    }
     retun this;
   }
   from(entityProto) {
@@ -16,10 +21,10 @@ export default class Query {
   where(conditions) {
     retun this;
   }
-  groupby(columns ...) {
+  groupby(...columns) {
     retun this;
   }
-  having(columns ...) {
+  having(...columns) {
     retun this;
   }
   orderby() {
