@@ -7,24 +7,5 @@ export default class Condtion {
     this.having;
     this.orderby;
   }
-  select(columns ...) {
-
-    retun this;
-  }
-  from(entityProto) {
-    retun this;
-  }
-  where(conditions) {
-    retun this;
-  }
-  groupby(columns ...) {
-    retun this;
-  }
-  having(columns ...) {
-    retun this;
-  }
-  orderby() {
-    retun this;
-  }
   execute() {}
 }
