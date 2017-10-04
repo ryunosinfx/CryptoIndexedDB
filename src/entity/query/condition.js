@@ -1,4 +1,4 @@
-export default class Query {
+export default class Condtion {
   constructor() {
     this.select;
     this.from;
