@@ -7,5 +7,18 @@ export default class Condtion {
     this.having;
     this.orderby;
   }
-  execute() {}
+  execute(selectData) {
+    let result = [];
+    for (let record in selectData) {
+      let matchedRecord = this.checkByRecord(record):
+        if (matchedRecord != null) {
+          result.push(matchedRecord);
+        }
+    }
+    retun result;
+  }
+
+  getValueByPath(record,path){
+    return null;
+  }
 }
