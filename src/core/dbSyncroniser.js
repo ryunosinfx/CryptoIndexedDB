@@ -1,7 +1,6 @@
 import constant from './constant'
 import Authoricator from './auth/authoricator'
 import Entity from '../entity/entity'
-import Entity from '../entity/entity'
 import DBControlUtil from './dbControlUtil'
 const dbSyncronizeQueue = [];
 
