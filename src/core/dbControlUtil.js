@@ -62,6 +62,14 @@ class DBControlUtilImpl {
     } else {}
     return null;
   }
+  createEntity(entityName) {
+    let entityClass = entityClasses[entityName];
+    if (entityClass) {
+      let entityInstance = new entityClass(null, {}, null);
+      return entityInstance;
+    } else {}
+    return null;
+  }
   ///////////////////////////////////////////////////////////////////////////////////////////////
   async serialize(entity, resultData = {}, pkHashCalced) {
     let pk = entity.pk;
@@ -236,5 +244,8 @@ export default class DBControlUtil {
   //　この処理がEntity定義地に呼ばれることを
   registerEntity(entity){
     impl.registerEntity(entity);
+  }
+  createEntity(entityName){
+    return impl.createEntity(entityName);
   }
 }

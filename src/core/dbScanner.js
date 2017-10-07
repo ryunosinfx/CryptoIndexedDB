@@ -36,6 +36,10 @@ export default class DBScanner {
   async loadBinaryData(key){
 
   }
+  selectByName(entityName){
+    let entity = this.dbControlUtil.createEntity(entityName);
+    return imdbAccessor.select(entity);
+  }
   select(entity){
     return imdbAccessor.select(entity);
   }

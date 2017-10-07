@@ -1,12 +1,10 @@
-
+import DBScannerReafOnly from '../../core/dbScannerReafOnly'
 export default class from {
   constructor(entityName) {
     this.entityName = entityName;
+    this.dbScannerReafOnly = new DBScannerReafOnly();
   }
   execute() {
-    if(Array.isArray(selectData)){
-      for()
-    }
-    return this;
+    return this.dbScannerReafOnly.selecｔByName(this.entityName);
   }
 }

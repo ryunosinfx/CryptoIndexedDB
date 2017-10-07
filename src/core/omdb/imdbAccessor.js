@@ -47,7 +47,7 @@ export default class ImdbAccessor {
       let conditions = {};
       for (let key in conditions) {
         let value = conditions[key];
-        if(Object.getPrototypeOf(entity)=== range){
+        if (Object.getPrototypeOf(entity) === range) {
           if(){
 
           }

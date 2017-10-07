@@ -12,7 +12,6 @@ export default class Equal extends Condtion {
     let valueRealsA = this.getValueByPath(record,this.valueA,this.isColumnNameA);
     let valueRealsB = this.getValueByPath(record,this.valueB,this.isColumnNameB);
     for(let valueRealA of valueRealsA){
-
       for(let valueRealB of valueRealsB){
         if(valueRealA===valueRealB){
           return record;
@@ -21,6 +20,4 @@ export default class Equal extends Condtion {
     }
     return null;
   }
-
-
 }
