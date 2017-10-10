@@ -17,4 +17,16 @@ export default class Range {
   lesserEqual(){
     return this.lesserEqual;
   }
+  isGrater(value){
+    return this.grater === null || this.grater < value;
+  }
+  isLesser(value){
+    return this.lesser === null || this.lesser > value;
+  }
+  isGgaterEqual(value){
+    return this.graterEqual === null || this.graterEqual <= value;;
+  }
+  isLesserEqual(value){
+    return this.lesserEqual === null || this.lesserEqual >= value;
+  }
 }

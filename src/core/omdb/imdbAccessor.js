@@ -44,18 +44,34 @@ export default class ImdbAccessor {
       let conditions = entity.getAsContions();
       let entityName = entity.constructor.name;
       let imdbEntities = inMemoryDB[entityName];
-      let conditions = {};
-      for (let key in conditions) {
-        let value = conditions[key];
-        if (Object.getPrototypeOf(entity) === range) {
-          if(){
-
-          }
-        }
-      }
+      let conditions = entity.getAsContions();
+      let resultList = [];
       if (imdbEntities !== undefined) {
         for (let record in imdbEntities) {
-
+          let isMatched = true;
+          for (let key in conditions) {
+            let value = record[key];
+            let condition = conditions[key];
+            if (Object.getPrototypeOf(condition) === range) {
+              if (
+                condition.isGrater(value) === false ||
+                condition.isLesser(value) === false ||
+                condition.isGgaterEqual(value) === false ||
+                condition.isLesserEqual(value) === false
+              ) {
+                isMatched = false;
+                break;
+              }
+            }else{
+              if(value !== condition){
+                  isMatched = false;
+                  break;
+              }
+            }
+          }
+          if(isMatched){
+            resultList.push(record);
+          }
         }
       }
     } else {
