@@ -1,17 +1,25 @@
-
+import c from './condtion'
+import GroupBy from './groupby'
 export default class where {
-  constructor(columns) {
-    this.columns = columns;
-    this.isDistinct = false;
+  constructor(condition) {
+    this.condition = condition;
   }
-  distinctK()[
-    this.isDdstinct = true;
-    return this;
-  ]
   execute(selectData) {
+    let retList = [];
     if(Array.isArray(selectData)){
-      for()
+      for(let record of selectData){
+        if(this.filter(record)){
+          retList.push(record);
+        }
+      }
     }
-    retun this;
+    retun retList;
   }
+  filter(record){
+    if(this.condition.execute(record)){
+      return true;
+    }
+    return false;
+  }
+
 }

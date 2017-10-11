@@ -4,10 +4,10 @@ export default class select {
     this.columns = columns;
     this.isDistinct = false;
   }
-  distinctK()[
+  distinctK(){
     this.isDdstinct = true;
     return this;
-  ]
+  }
   execute(selectData) {
     if(Array.isArray(selectData)){
       for()

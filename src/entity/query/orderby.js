@@ -1,13 +1,9 @@
 
-export default class orderby {
+export default class OrderBy {
   constructor(columns) {
     this.columns = columns;
     this.isDistinct = false;
   }
-  distinctK()[
-    this.isDdstinct = true;
-    return this;
-  ]
   execute(selectData) {
     if(Array.isArray(selectData)){
       for()

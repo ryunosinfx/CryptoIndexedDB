@@ -11,13 +11,17 @@ export default class NotEqual extends Condtion {
   checkByRecord(record) {
     let valueRealsA = this.getValueByPath(record,this.valueA,this.isColumnNameA);
     let valueRealsB = this.getValueByPath(record,this.valueB,this.isColumnNameB);
+    let valueCount = valueRealsA.length;
+    let isEqual = false;
     for(let valueRealA of valueRealsA){
       for(let valueRealB of valueRealsB){
         if(valueRealA===valueRealB){
-          return record;
+          isEqual = true;
+          break;
         }
       }
+      if(isEqual){break;}
     }
-    return null;
+    return isEqual?null:record;
   }
 }

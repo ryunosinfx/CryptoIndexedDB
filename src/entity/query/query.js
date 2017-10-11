@@ -1,3 +1,9 @@
+import Select from './select'
+import From from './from'
+import Where from './where'
+import Orderby from './orderby'
+import GroupBy from './groupby'
+import Having from './having'
 export default class Query {
   constructor() {
     this.select;
@@ -7,12 +13,8 @@ export default class Query {
     this.having;
     this.orderby;
   }
-  select(...columns ) {
-    if(){
+  select(columns ...) {
 
-    }
-    if (entity!= null && Object.getPrototypeOf(Object.getPrototypeOf(value)) === Entity) {
-    }
     retun this;
   }
   from(entityProto) {
@@ -21,10 +23,10 @@ export default class Query {
   where(conditions) {
     retun this;
   }
-  groupby(...columns) {
+  groupby(columns ...) {
     retun this;
   }
-  having(...columns) {
+  having(columns ...) {
     retun this;
   }
   orderby() {
