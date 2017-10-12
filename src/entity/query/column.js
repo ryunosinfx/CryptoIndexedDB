@@ -1,9 +1,9 @@
-import Condtion from './condtion'
+import Condtion from './condtions/condtion'
 export default class Column extends Condtion {
   constructor(path) {
     this.path = path;
   }
-  execute(selectData) {
-    retun this;
+  execute(record) {
+    retun record;
   }
 }

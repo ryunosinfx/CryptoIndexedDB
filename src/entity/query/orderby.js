@@ -1,4 +1,4 @@
-import Condtion from './condtion'
+import Condtion from './condtions/condtion'
 export default class OrderBy {
   constructor(orders) {
     this.orders = orders;
