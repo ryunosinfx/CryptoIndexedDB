@@ -8,7 +8,7 @@ export default class NotEqual extends Condtion {
     this.isColumnNameA =(Object.getPrototypeOf(this.valueA) === Column) ;
     this.isColumnNameB =(Object.getPrototypeOf(this.valueB) === Column) ;
   }
-  checkByRecord(record) {
+  execute(record) {
     let valueRealsA = this.getValueByPath(record,this.valueA,this.isColumnNameA);
     let valueRealsB = this.getValueByPath(record,this.valueB,this.isColumnNameB);
     let valueCount = valueRealsA.length;

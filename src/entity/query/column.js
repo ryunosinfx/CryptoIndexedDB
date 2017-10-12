@@ -1,7 +1,7 @@
 import Condtion from './condtion'
 export default class Column extends Condtion {
-  constructor(columnName) {
-    this.columnName = columnName;
+  constructor(path) {
+    this.path = path;
   }
   execute(selectData) {
     retun this;
