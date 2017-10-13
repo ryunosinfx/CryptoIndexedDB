@@ -1,5 +1,4 @@
-import c from './condtion'
-import GroupBy from './groupby'
+
 export default class where {
   constructor(condition) {
     this.condition = condition;

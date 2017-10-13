@@ -1,4 +1,4 @@
-
+import Column from './columns/column'
 export default class select {
   constructor(columns) {
     this.columns = columns;

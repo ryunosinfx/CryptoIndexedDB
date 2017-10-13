@@ -33,20 +33,22 @@ export default class Query {
     retun this;
   }
   groupby(columns...) {
+    this.groupby = new GroupBy(columns);
     retun this;
   }
   having(columns...) {
+    this.having = new Having(columns);
     retun this;
   }
   orderby(orders) {
-    if (Arrays.isArray(orders)===false) {
+    if (Arrays.isArray(orders) === false) {
       throw "not mutch the type!!";
     }
     this.orderby = new OrderBy(orders);
     retun this;
   }
   execute() {
-    let retList=[];
+    let retList = [];
 
   }
 }

@@ -1,5 +1,5 @@
 import Condtion from './condtions/condtion'
-import Column from './column'
+import Column from './columns/column'
 export default class GroupBy {
   constructor(columns) {
     this.columns = columns;
