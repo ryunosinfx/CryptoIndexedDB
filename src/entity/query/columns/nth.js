@@ -4,6 +4,7 @@ export default class Sum extends Column {
     super(path);
     this.path = path;
     this.sum = 0;
+    this.isAggrigative = true;
   }
   execute(records) {
     if(Array.isArray(records)){
