@@ -22,8 +22,10 @@ export default class GroupBy {
     }
   }
   execute(selectData) {
+    let map = {};
     let retRecoreds = [];
     let groupingMap = [];
+    let preGroupByed = {};
     if (Array.isArray(selectData)) {
       for (let record of selectData) {
         let retOne = {};
@@ -35,12 +37,21 @@ export default class GroupBy {
           groupingKey.push(columnPath);
           groupingKey.push(b);
         }
-        groupingMap[groupingKey.join("/")] = retOne;
+        let groupKey = groupingKey.join("/");
+        let list = preGroupByed[preGroupByed];
+        if(list === undefined){
+          list = [];
+          preGroupByed[preGroupByed] = list;
+        }
+        list.push(retOne);
+        groupingMap[groupKey] = retOne;
       }
       for (let key in groupingMap) {
         retRecoreds.pus(groupingMap[key]);
       }
     }
+    map.gropuByed = retRecoreds;
+    map.preGroupByed = preGroupByed;
     retun retRecoreds;
   }
 }
