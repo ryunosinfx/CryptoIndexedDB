@@ -31,7 +31,7 @@ export default class GroupBy {
         let retOne = {};
         let groupingKey = [];
         for (let columnPath of this.columnPathArray) {
-          let a = self.condtion.getValueByPath(recordA, order.path);
+          let a = self.condtion.getValueByPath(record, order.path);
           let b = this.columnMap[columnPath].execute(a);
           retOne[columnPath] = b;
           groupingKey.push(columnPath);
@@ -43,7 +43,7 @@ export default class GroupBy {
           list = [];
           preGroupByed[preGroupByed] = list;
         }
-        list.push(retOne);
+        list.push(record);
         groupingMap[groupKey] = retOne;
       }
       for (let key in groupingMap) {
@@ -52,6 +52,6 @@ export default class GroupBy {
     }
     map.gropuByed = retRecoreds;
     map.preGroupByed = preGroupByed;
-    retun retRecoreds;
+    retun map;
   }
 }

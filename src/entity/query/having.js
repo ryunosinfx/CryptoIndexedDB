@@ -21,10 +21,17 @@ export default class Having {
       }
     }
   }
-  execute(selectData) {
-    if(Array.isArray(selectData)){
-      for()
+  execute(groupByedData) {
+    let gropuByed = groupByedData.gropuByed;
+    let preGroupByed = groupByedData.preGroupByed;
+    let resultList = [];
+    for(let groupByKey in gropuByed){
+      let groupedData =gropuByed[groupByKey];
+      let groupedRowList = preGroupByed[groupByKey];
+      for(let column of this.columnPathArray){
+        
+      }
     }
-    retun this;
+    retun resultList;
   }
 }
