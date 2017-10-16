@@ -1,27 +1,22 @@
 import Column from './column'
-export default class Sum extends Column {
-  constructor(path) {
+export default class First extends Column {
+  constructor(path,nth) {
     super(path);
     this.path = path;
-    this.sum = 0;
+    this.nth = nth;
+    this.value = null;
     this.isAggrigative = true;
   }
   execute(records) {
-    if(Array.isArray(records)){
-      for(let record of records){
-        this.executePerRecord(record);
-      }else{
-          this.executePerRecord(records);
-      }
-      return records.length;
-    }else{
-      return 1;
+    if (Array.isArray(records) && records.length >0) {
+        this.executePerRecord(records[records.length >=this.nth-1?this.nth:records.length -1]);
+        return this.value;
+    } else {
+      this.executePerRecord(records);
     }
-    return this.sum;
+    return this.value
   }
-  executePerRecord(record){
-      let plane =  this.getValueByPath(record,this.path);
-      let valueInt = parseInt(plane);
-      this.sum += valueInt===NaN?plane:valueInt;
+  executePerRecord(record) {
+    this.value = this.getValueByPath(record, this.path);
   }
 }

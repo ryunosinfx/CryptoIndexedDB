@@ -1,5 +1,5 @@
 import Column from './column'
-export default class Sum extends Column {
+export default class First extends Column {
   constructor(path) {
     super(path);
     this.path = path;
@@ -10,6 +10,7 @@ export default class Sum extends Column {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);
+        return this.value;
       }
     } else {
       this.executePerRecord(records);

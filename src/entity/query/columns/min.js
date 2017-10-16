@@ -1,27 +1,27 @@
 import Column from './column'
-export default class Sum extends Column {
+//import Column from '../../../core/crypt/column'
+export default class Min extends Column {
   constructor(path) {
     super(path);
     this.path = path;
-    this.sum = 0;
+    this.min = 0;
     this.isAggrigative = true;
   }
   execute(records) {
-    if(Array.isArray(records)){
-      for(let record of records){
+    if (Array.isArray(records)) {
+      for (let record of records) {
         this.executePerRecord(record);
-      }else{
-          this.executePerRecord(records);
       }
-      return records.length;
-    }else{
-      return 1;
+    } else {
+      this.executePerRecord(records);
     }
-    return this.sum;
+    return this.min;
   }
-  executePerRecord(record){
-      let plane =  this.getValueByPath(record,this.path);
-      let valueInt = parseInt(plane);
-      this.sum += valueInt===NaN?plane:valueInt;
+  executePerRecord(record) {
+    let plane = this.getValueByPath(record, this.path);
+
+    this.min = this.min === 0 || this.min > plane
+      ? plane
+      : this.min ;
   }
 }

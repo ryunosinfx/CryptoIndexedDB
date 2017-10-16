@@ -1,6 +1,6 @@
 import Column from './column'
-import Column from '../../../core/crypt/column'
-export default class Sum extends Column {
+//import Column from '../../../core/crypt/column'
+export default class Max extends Column {
   constructor(path) {
     super(path);
     this.path = path;
@@ -20,8 +20,8 @@ export default class Sum extends Column {
   executePerRecord(record) {
     let plane = this.getValueByPath(record, this.path);
 
-    this.max = valueInt === NaN
+    this.max = this.max === 0 || this.max < plane
       ? plane
-      : valueInt;
+      : this.max ;
   }
 }

@@ -1,5 +1,5 @@
 import Column from './column'
-export default class Sum extends Column {
+export default class First extends Column {
   constructor(path) {
     super(path);
     this.path = path;
@@ -7,12 +7,13 @@ export default class Sum extends Column {
     this.isAggrigative = true;
   }
   execute(records) {
-    if (Array.isArray(records)) {
-      this.executePerRecord(records[records.length-1]);
+    if (Array.isArray(records) && records.length >0) {
+        this.executePerRecord(records[records.length-1]);
+        return this.value;
     } else {
       this.executePerRecord(records);
     }
-    return this.value;
+    return this.value
   }
   executePerRecord(record) {
     this.value = this.getValueByPath(record, this.path);
