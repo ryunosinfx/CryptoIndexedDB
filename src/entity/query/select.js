@@ -4,16 +4,36 @@ export default class select {
     this.columns = columns;
     this.isDistinct = false;
   }
-  distinctK(){
+  distinctK() {
     this.isDdstinct = true;
     return this;
   }
   execute(selectData) {
-    if(selectData.sorted){
-      for(){
-        
+    let retList = [];
+    if (selectData.sorted) {
+      if (!!this.columns === false || this.columns === "*") {
+        for (let record of selectData.sorted) {
+          let groupByKey = selectData.sortedMap[record];
+          let records = selectData.preGroupByed[groupByKey];
+          retList.push(this.executeByRecord(record, records));
+        }
+      } else {
+        retList = selectData.sorted;
+      }
+    } else {
+      for (let groupByKey in selectData.gropuByed) {
+        let record = selectData.gropuByed[groupByKey];
+        let records = selectData.preGroupByed[groupByKey];
+        retList.push(this.executeByRecord(record, records));
       }
     }
-    retun this;
+    retun retList;
+  }
+  executeByRecord(record, records)) {
+    let retOne = {};
+    for (let column of this.columns) {
+      retOne[column.path] = column.execute(record, records);
+    }
+    return retOne;
   }
 }

@@ -43,4 +43,7 @@ export default class DBScanner {
   select(entity){
     return imdbAccessor.select(entity);
   }
+  deleteAllDataAtLogout(){
+    imdbAccessor.init();
+  }
 }
