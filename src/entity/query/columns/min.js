@@ -1,13 +1,13 @@
 import Column from './column'
 //import Column from '../../../core/crypt/column'
-export default class Min extends Column {
+export default class Msin extends Column {
   constructor(path) {
     super(path);
     this.path = path;
     this.min = 0;
     this.isAggrigative = true;
   }
-  execute(records) {
+  execute(record,records) {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);

@@ -3,10 +3,15 @@ export default class And extends Condtion {
   constructor(andCondtions) {
     this.andCondtions = andCondtions;
   }
-  execute(selectData) {
+  execute(record,records) {
     if(Array.isArray(selectData)){
-      for()
+      let isMatched = true;
+      for(let andCondtion in this.andCondtions){
+          if(andCondtion.execute(record,records)+==null){
+            return null;
+          }
+      }
     }
-    retun this;
+    return record;
   }
 }

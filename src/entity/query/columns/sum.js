@@ -5,7 +5,7 @@ export default class Sum extends Column {
     this.path = path;
     this.sum = 0;
   }
-  execute(records) {
+  execute(record,records) {
     if(Array.isArray(records)){
       for(let record of records){
         this.executePerRecord(record);

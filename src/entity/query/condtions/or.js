@@ -3,9 +3,9 @@ export default class Or extends Condtion {
   constructor(orCondtions) {
     this.orCondtions = orCondtions;
   }
-  execute(record) {
+  execute(record,records) {
     for(let orCondtion of this.orCondtions){
-      if(orCondtion.execute(record)!==null){
+      if(orCondtion.execute(record,records)!==null){
         return record;
       }
     }

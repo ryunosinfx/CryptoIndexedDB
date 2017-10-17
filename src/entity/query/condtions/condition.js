@@ -7,8 +7,8 @@ export default class Condtion {
     this.having;
     this.orderby;
   }
-  execute(record) {
-    return this.checkByRecord(record):
+  execute(record,records) {
+    return this.checkByRecord(record,records):
   }
 
   getValueByPath(record,path){

@@ -7,7 +7,7 @@ export default class Max extends Column {
     this.max = 0;
     this.isAggrigative = true;
   }
-  execute(records) {
+  execute(record,records) {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);
