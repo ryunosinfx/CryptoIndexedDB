@@ -9,8 +9,10 @@ export default class select {
     return this;
   }
   execute(selectData) {
-    if(Array.isArray(selectData)){
-      for()
+    if(selectData.sorted){
+      for(){
+        
+      }
     }
     retun this;
   }

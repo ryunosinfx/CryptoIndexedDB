@@ -8,11 +8,11 @@ import Condtion from './condtion'
 export default class Query {
   constructor() {
     this.select;
-    this.from;
-    this.where;
-    this.groupby;
-    this.having;
-    this.orderby;
+    this.from = null;
+    this.where = null;
+    this.groupby = null;
+    this.having = null;
+    this.orderby = null;
   }
   select(columns...) {
     this.select = new Select(columns);
@@ -49,6 +49,19 @@ export default class Query {
   }
   execute() {
     let retList = [];
+    let fromData = this.from .execute();
+    if(this.where){
+      fromData = this.where(fromData);
+    }
+    if(this.groupby){
+      fromData = this.groupby(fromData);
+    }
+    if(this.having){
+      fromData = this.having(fromData);
+    }
+    if(this.orderby){
+      fromData = this.orderby(fromData);
+    }
     
     return retList;
   }

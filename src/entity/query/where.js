@@ -1,24 +1,20 @@
-
 export default class where {
   constructor(condition) {
     this.condition = condition;
   }
   execute(selectData) {
-    let retList = [];
-    if(Array.isArray(selectData)){
-      for(let record of selectData){
-        if(this.filter(record)){
-          retList.push(record);
-        }
+    let resultMap = {
+      gropuByed: {},
+      preGroupByed: {}
+    };
+    for (let pk in selectData.gropuByed) {
+      let record = resultMap.gropuByed[record.pk];
+      let records = resultMap.preGroupByed[record.pk];
+      if (this.condition.execute(record, records) {
+        resultMap.gropuByed[record.pk] = record;
+        resultMap.preGroupByed[record.pk] = [record];
       }
     }
-    retun retList;
+    return resultMap;
   }
-  filter(record){
-    if(this.condition.execute(record)){
-      return true;
-    }
-    return false;
-  }
-
 }

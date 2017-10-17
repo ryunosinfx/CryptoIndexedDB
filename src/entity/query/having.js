@@ -13,17 +13,18 @@ export default class Having {
   execute(groupByedData) {
     let gropuByed = groupByedData.gropuByed;
     let preGroupByed = groupByedData.preGroupByed;
-    let resultList = [];
-    for(let groupByKey in gropuByed){
-      let record =gropuByed[groupByKey];
+    let resultMap = {
+      gropuByed: {},
+      preGroupByed: {}
+    };
+    for (let groupByKey in gropuByed) {
+      let record = gropuByed[groupByKey];
       let records = preGroupByed[groupByKey];
-      for(let path of this.columnMap){
-        if(this.condition.execute(record,records)){
-          return true;
-        }
-        return false;
+      if (this.condition.execute(record, records)) {
+        resultMap.gropuByed[groupByKey] = record;
+        resultMap.gropuByed[groupByKey] = records;
       }
     }
-    retun resultList;
+    retun resultMap;
   }
 }

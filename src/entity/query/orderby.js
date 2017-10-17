@@ -5,15 +5,29 @@ export default class OrderBy {
     this.condtion = new Condtion();
   }
   execute(selectData) {
+    let resultMap = {
+      gropuByed: selectData.gropuByed,
+      preGroupByed: selectData.preGroupByed,
+      sorted: [],
+      sortedMap: {}
+    };
+    let sortData = [];
+    for (let groupByKey in selectData.gropuByed) {
+      let record = resultMap.gropuByed[groupByKey];
+      sortData.push(record);
+      sortedMap[record] =groupByKey;
+    }
     let orders = ([].concat(this.orders)).reverse();
     for (let order of orders) {
       if (order.isDESC) {
-        this.toBeDESC(selectData, order);
+        this.toBeDESC(sortData, order);
       } else {
-        this.toBeASC(selectData, order);
+        this.toBeASC(sortData, order);
       }
     }
-    retun selectData;
+    resultMap.sorted = sortData;
+    resultMap.sortedMap = sortedMap;
+    return resultMap;
   }
   toBeASC(list, order) {
     let self = this;

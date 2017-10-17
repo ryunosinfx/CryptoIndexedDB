@@ -22,36 +22,34 @@ export default class GroupBy {
     }
   }
   execute(selectData) {
-    let map = {};
+    let retMap = {gropuByed:"",preGroupByed:""};
     let retRecoreds = [];
     let groupingMap = [];
     let preGroupByed = {};
-    if (Array.isArray(selectData)) {
-      for (let record of selectData) {
-        let retOne = {};
-        let groupingKey = [];
-        for (let columnPath of this.columnPathArray) {
-          let a = self.condtion.getValueByPath(record, order.path);
-          let b = this.columnMap[columnPath].execute(a);
-          retOne[columnPath] = b;
-          groupingKey.push(columnPath);
-          groupingKey.push(b);
-        }
-        let groupKey = groupingKey.join("/");
-        let list = preGroupByed[preGroupByed];
-        if(list === undefined){
-          list = [];
-          preGroupByed[preGroupByed] = list;
-        }
-        list.push(record);
-        groupingMap[groupKey] = retOne;
+    for (let record of selectData.gropuByed) {
+      let retOne = {};
+      let groupingKey = [];
+      for (let columnPath of this.columnPathArray) {
+        let a = self.condtion.getValueByPath(record, order.path);
+        let b = this.columnMap[columnPath].execute(a);
+        retOne[columnPath] = b;
+        groupingKey.push(columnPath);
+        groupingKey.push(b);
       }
-      for (let key in groupingMap) {
-        retRecoreds.pus(groupingMap[key]);
+      let groupKey = groupingKey.join("/");
+      let list = preGroupByed[preGroupByed];
+      if(list === undefined){
+        list = [];
+        preGroupByed[preGroupByed] = list;
       }
+      list.push(record);
+      groupingMap[groupKey] = retOne;
     }
-    map.gropuByed = retRecoreds;
-    map.preGroupByed = preGroupByed;
-    retun map;
+    for (let key in groupingMap) {
+      retRecoreds.push(groupingMap[key]);
+    }
+    retMap.gropuByed = retRecoreds;
+    retMap.preGroupByed = preGroupByed;
+    retun retMap;
   }
 }

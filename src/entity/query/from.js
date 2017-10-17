@@ -5,6 +5,15 @@ export default class from {
     this.dbScannerReafOnly = new DBScannerReafOnly();
   }
   execute() {
-    return this.dbScannerReafOnly.selecｔByName(this.entityName);
+    let resultMap = {
+      gropuByed: {},
+      preGroupByed: {}
+    };
+    let selectData = this.dbScannerReafOnly.selecｔByName(this.entityName);
+    for (let record of selectData) {
+      resultMap.gropuByed[record.pk] = record;
+      resultMap.preGroupByed[record.pk] = [record];
+    }
+    return resultMap;
   }
 }
