@@ -5,16 +5,50 @@ export default class TranzactionManager extends entityManager {
   constructor() {
     this.constant = constant.dbName;
     this.isOnTranzaction = false;
-    this.uncommited =[];
+    this.isCommited = false;
+    this.tranzactionalQueue = {
+      "save": [],
+      "delete": []
+    };
   }
   begin() {
+    if (this.isCommited) {
+      throw "do not reuse a tranzaction!";
+    }
     this.isOnTranzaction = true;
+    this.tranzactionalQueue = {
+      "save": [],
+      "delete": []
+    };
   }
   commit() {
-    this.isOnTranzaction = false;
+    let self = this;
+    let cmd = [
+      {command: "delete", targets: this.tranzactionalQueue.delete},
+      {command: "save", targets: this.tranzactionalQueue.save}
+    ];
+    let executePromise = this.dBSyncronizer.doExecuteAsTranzactional(cmd);
+    return new Promise((resolve, reject) => {
+      executePromise.then((data) => {
+        this.isOnTranzaction = false;
+        this.tranzactionalQueue = {
+          "save": [],
+          "delete": []
+        };
+        this.isCommited = true;
+        resolve(data);
+      }, (e) => {
+        reject(e);
+      })
+    });
   }
   rollback() {
     this.isOnTranzaction = false;
+    this.tranzactionalQueue = {
+      "save": [],
+      "delete": []
+    };
+    this.isCommited = true;
   }
   getQuery() {
     return new Query(this.isOnTranzaction);
@@ -27,10 +61,15 @@ export default class TranzactionManager extends entityManager {
     return selectData;
   }
   async save(entitys) {
-    this.uncommited.push();
-    await this.pushQueue("save", entitys);
+    await this.addQueue("save", entitys);
   }
   async delete(entitys) {
-    await this.pushQueue("delete", entitys);
+    await this.addQueue("delete", entitys);
   }
-}
+  async addQueue(command, entitys) {
+    let targets = entitys;
+    if (Array.isArray(entitys) === false) {
+      targets = [entitys];
+    }
+    this.tranzactionalQueue[command] = this.tranzactionalQueue[command].concat(targets);
+  }

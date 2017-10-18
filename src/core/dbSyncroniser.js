@@ -12,13 +12,21 @@ class DBSyncronizerImpl {
     this.isIgnited = false;
     this.dbControlUtil = new DBControlUtil(authoricator);
     this.imdbAccessor = imdbAccessor;
+    this.isOnTran = false;
+    this.onTranTimer = null;
   }
   ignition() {
     if (this.isIgnited) {
       return;
     }
+    let self = this;
     this.isIgnited = true;
     while (true) {
+      if(this.isOnTran){
+        this.onTranTimer = setTimeout(()=>{self.isOnTran = false;},10000);
+        continue;
+      }
+      clearTimout(this.onTranTimer);
       this.shiftQueue();
     }
   }
@@ -65,5 +73,12 @@ export default class DBSyncronizer {
     if (targetsWithCommand) {
       dbSyncronizeQueue.push(targetsWithCommand);
     }
+  }
+  async doExecuteAsTranzactional(targetsWithCommands){
+    dbsImpl.isOnTran = true;
+    for(let targetsWithCommand of targetsWithCommands){
+      await dbsImpl.execute(targetsWithCommand);
+    }
+    dbsImpl.isOnTran = false;
   }
 }
