@@ -6,13 +6,14 @@ import GroupBy from './groupby'
 import Having from './having'
 import Condtion from './condtion'
 export default class Query {
-  constructor() {
+  constructor(isOnTranzaction) {
     this.select;
     this.from = null;
     this.where = null;
     this.groupby = null;
     this.having = null;
     this.orderby = null;
+    this.isOnTranzactio= isOnTranzaction;
   }
   select(columns...) {
     this.select = new Select(columns);
@@ -22,7 +23,7 @@ export default class Query {
     if (Object.getPrototypeOf(entity) !== entity) {
       throw "not mutch the type!!";
     }
-    this.from = new From(entity.name);
+    this.from = new From(entity.name,this.isOnTranzactio);
     retun this;
   }
   where(condition) {
@@ -62,7 +63,7 @@ export default class Query {
     if(this.orderby){
       fromData = this.orderby(fromData);
     }
-    
+
     return retList;
   }
 }
