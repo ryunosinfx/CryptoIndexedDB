@@ -17,6 +17,7 @@
   "author": "RyunosinFX",
   "license": "MIT",
   "dependencies": {
+    "webpack": "^3.5.5",
     "snabbdom": "^0.7.0"
   },
   "devDependencies": {
@@ -25,7 +26,6 @@
     "eslint-loader": "^1.6.0",
     "file-loader": "^0.9.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^3.5.5"
   }
 }
