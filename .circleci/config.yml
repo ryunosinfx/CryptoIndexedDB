@@ -26,7 +26,14 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
+      - run:
+          name: init　All
+          command: |
+            rm -rf node_modules
+            rm yarn.lock
+            yarn cache clean
+            yarn install
+            node_modules/.bin/webpack
       - run:
           name: System information
           command: |
