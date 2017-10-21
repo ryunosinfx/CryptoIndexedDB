@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot --inline --progress --colors",
     "start1": "webpack-dev-server --hot --progress --colors",
-    "start3": "webpack --progress --colors",
+    "build_dist": "webpack --progress --colors",
     "plane": "webpack",
     "dev": "webpack-dev-server --devtool eval"
   },
