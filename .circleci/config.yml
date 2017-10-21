@@ -30,7 +30,6 @@ jobs:
           name: init　All
           command: |
             rm -rf node_modules
-            rm yarn.lock
             yarn cache clean
             yarn install
             node_modules/.bin/webpack
