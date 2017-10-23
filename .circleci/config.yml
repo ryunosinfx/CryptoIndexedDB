@@ -38,7 +38,6 @@ jobs:
           command: |
             echo "Node $(node -v)"
             echo "Yarn v$(yarn --version)"
-            ls -laRt
             pwd
       - run:
           name: Install dependencies
@@ -49,6 +48,12 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+    - run:
+        name: System information 2nd
+        command: |
+          ls -latr
+          ls -latr ./dist
+          ls -latr ~/dist
 
       # run tests!
       #- run: yarn test
