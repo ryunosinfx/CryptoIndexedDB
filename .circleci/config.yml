@@ -55,11 +55,11 @@ jobs:
             ls -latr
             ls -latr ./dist
             pwd
-            ls -latr ~/dist
+            ls -latr ~/repo/dist
 
       # run tests!
       #- run: yarn test
 
       - store_artifacts:
           path: artifacts/
-          path: ./dist
+          path: ~/repo/dist
