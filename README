@@ -1,0 +1,30 @@
+EncryptIndexedDBEntityManager
+====
+
+Overview
+
+## Description
+A html5 tool to Encrypt IndexedDB EntityManager!
+your data save in the browser with aes256!
+I breve nobody readable without userid and password!
+
+## Demo
+now maiking!
+
+## Requirement
+Chrome 61, firefox 56 orver
+
+## Usage
+You copy and depkoy
+
+## Install
+
+## Contribution
+
+## Licence
+
+[MIT](https://github.com/ryunosinfx/EncryptIndexedDBEntityManager/blob/master/LICENSE)
+
+## Author
+
+[ryunosinfx](https://github.com/ryunosinfx)
