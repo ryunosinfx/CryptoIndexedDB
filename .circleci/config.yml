@@ -54,6 +54,7 @@ jobs:
           command: |
             ls -latr
             ls -latr ./dist
+            pwd
             ls -latr ~/dist
 
       # run tests!
@@ -61,4 +62,4 @@ jobs:
 
       - store_artifacts:
           path: artifacts/
-          path: ~/dist
+          path: ./dist
