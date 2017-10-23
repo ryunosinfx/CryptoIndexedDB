@@ -48,12 +48,13 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-    - run:
-        name: System information 2nd
-        command: |
-          ls -latr
-          ls -latr ./dist
-          ls -latr ~/dist
+
+      - run:
+          name: System information 2nd
+          command: |
+            ls -latr
+            ls -latr ./dist
+            ls -latr ~/dist
 
       # run tests!
       #- run: yarn test
