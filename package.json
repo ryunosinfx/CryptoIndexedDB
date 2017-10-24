@@ -1,13 +1,13 @@
 {
-  "name": "EncryptIndexedDBEntityManager",
-  "version": "1.0.0",
+  "name": "encrypt-indexeddb-entity-manager",
+  "version": "0.0.4",
   "description": "EncryptIndexedDBEntityManager",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot --inline --progress --colors",
     "start1": "webpack-dev-server --hot --progress --colors",
-    "start3": "webpack --progress --colors",
+    "build_dist": "webpack --progress --colors",
     "plane": "webpack",
     "dev": "webpack-dev-server --devtool eval"
   },
@@ -20,12 +20,13 @@
     "snabbdom": "^0.7.0"
   },
   "devDependencies": {
+    "webpack": "^3.5.5",
     "css-loader": "^0.25.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.6.0",
     "file-loader": "^0.9.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "babel-eslint": "^8.0.1",
+    "webpack-dev-server": "^2.9.3"
   }
 }
