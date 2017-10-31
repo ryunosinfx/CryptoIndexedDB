@@ -1,9 +1,10 @@
 import DBScannerReafOnly from '../../core/dbScannerReafOnly'
 export default class from {
-  constructor(entityName, isOnTranzaction) {
+  constructor(entityName, isOnTranzaction, dbScanner) {
+    this.dbScanner = dbScanner;
     this.entityName = entityName;
     this.isOnTranzaction = isOnTranzaction;
-    this.dbScannerReafOnly = new DBScannerReafOnly();
+    this.dbScannerReafOnly = new DBScannerReafOnly(dbScanner);
   }
   execute() {
     let resultMap = {
