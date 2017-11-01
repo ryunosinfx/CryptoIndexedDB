@@ -73,3 +73,9 @@ export default class TranzactionManager extends entityManager {
     }
     this.tranzactionalQueue[command] = this.tranzactionalQueue[command].concat(targets);
   }
+  async createQuery(isOnTranzaction) {
+    if () {
+      return await super.createQuery(true);
+    }
+    return null;
+  }

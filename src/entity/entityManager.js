@@ -34,4 +34,10 @@ export default class EntityManager {
     }
     await this.dBSyncronizer.pushQueue({command: command, targets: targets});
   }
+  async createQuery(isOnTranzaction) {
+    if (await this.isLogiedIn()) {
+      return new Query(isOnTranzaction, this.dbScanner);
+    }
+    return null;
+  }
 }
