@@ -12,7 +12,7 @@ const keys = {
 export default class Authoricator {
   //引数なしコンストラクター
   constructor() {}
-  //ログイン
+  //ユーザ登録
   async signup(userId, passwd) {
     // console.log("Authoricator-signup--a001");
     this.impl = new AuthoricatorImpl(userId);
@@ -33,6 +33,7 @@ export default class Authoricator {
   async signin(userId, passwd) {
     return await this.isActivate(userId, passwd);
   }
+  // ログイン済み確認
   async isLogedIn() {
     try {
       // console.log("Authoricator-isLogedIn--a001");
@@ -108,7 +109,7 @@ export default class Authoricator {
     }
     return false;
   }
-  //ログイン
+  //登録処理
   async activate(userId, passwd) {
     // console.log("Activate!! 001");
     this.impl = new AuthoricatorImpl(userId);
