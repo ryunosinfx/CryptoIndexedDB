@@ -2,8 +2,8 @@ import constant from '../core/constant'
 import EntityManager from './entityManager'
 import Query from './query/query'
 export default class TranzactionManager extends entityManager {
-  constructor() {
-    this.constant = constant.dbName;
+  constructor(dbScanner) {
+    super.constructor(dbScanner);
     this.isOnTranzaction = false;
     this.isCommited = false;
     this.tranzactionalQueue = {

@@ -2,19 +2,9 @@ import constant from '../core/constant'
 import DBSyncronizer from '../core/dbSyncroniser'
 import DBScanner from '../core/dbScanner'
 export default class EntityManager {
-  constructor(userId, passwd) {
-    this.constant = constant.dbName;
-    this.dbScanner = new DBScanner();
+  constructor(dbScanner) {
+    this.dbScanner = dbScanner;
     this.dBSyncronizer = this.dbScanner.dBSyncronizer;
-  }
-  async login(userId, password) {
-    await this.authoricator.signin(userId, password);
-    //fullLoad
-    await this.dbScanner.fullLoad();
-  }
-  async logout() {
-    await this.authoricator.signout(userId, password);
-    this.dbScanner.deleteAllDataAtLogout();
   }
   load(entity) {
     return this.dbScanner.select(entity);
@@ -31,11 +21,5 @@ export default class EntityManager {
       targets = [entitys];
     }
     await this.dBSyncronizer.pushQueue({command: command, targets: targets});
-  }
-  async createQuery(isOnTranzaction) {
-    if (await this.isLogiedIn()) {
-      return new Query(isOnTranzaction, this.dbScanner);
-    }
-    return null;
   }
 }
