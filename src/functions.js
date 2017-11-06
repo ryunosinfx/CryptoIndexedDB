@@ -7,32 +7,23 @@ const dbScanner = new DBScanner();
 export default class Functions {
   constructor() {
   }
-  async signup(userId, passwd) {
-    return await authoricator.signup(userId, passwd);
+  static async signup(userId, passwd) {
+    return await dbScanner.signup(userId, passwd);
   }
-  async signin(userId, passwd) {
-    await authoricator.signin(userId, passwd);
-    let isLogedIn = await this.isLogedIn();
-    let isActivate = await this.isActivate(userId, passwd);
-    if (isLogedIn && isActivate) {
-      await this.fullLoad();
-      return true;
-    }
-    this.deleteAllDataAtLogout();
-    return false;
+  static async signin(userId, passwd) {
+    return await dbScanner.signin(userId, passwd);
   }
-  async isLogedIn() {
-    return await authoricator.isLogedIn();
+  static async isLogedIn() {
+    return await dbScanner.isLogedIn();
   }
-  signout() {
-    this.deleteAllDataAtLogout();
-    return await authoricator.signout();
+  static signout() {
+    return await dbScanner.signout();
   }
-  async isActivate(userId, passwd) {
-    return await authoricator.isActivate(userId, passwd);
+  static async isActivate(userId, passwd) {
+    return await dbScanner.isActivate(userId, passwd);
   }
-  async activate(userId, passwd) {
-    return await authoricator.activate(userId, passwd);
+  static async activate(userId, passwd) {
+    return await dbScanner.activate(userId, passwd);
   }
   static async createQuery(isOnTranzaction) {
     if (await dbScanner.isLogiedIn()) {
