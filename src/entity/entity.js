@@ -25,6 +25,18 @@ export default class Entity {
   set data(data = null){
 
   }
+  set createTime(createTime){
+    super.set("createTime",createTime);
+  }
+  get createTime(){
+    return super.get("createTime");
+  }
+  set updateTime(updateTime){
+    super.set("updateTime",updateTime);
+  }
+  get updateTime(){
+    return super.get("updateTime");
+  }
   get(propName){
     if(this.isInTranzaction && this.update[propName] !== undefined){
       return this.update[propName];
@@ -34,6 +46,7 @@ export default class Entity {
   set(propName,value){
     this.update[propName] = value;
     this.isUpdated = true;
+    this.updateTimm = Date.getTime();
   }
   // XQLを考えると、Queryが存在して、from,Where(and,or,in,between,exists),groupby,having,orderby,がある。
   getAsContions(){
