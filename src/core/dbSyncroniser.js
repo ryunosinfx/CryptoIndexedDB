@@ -33,7 +33,7 @@ class DBSyncronizerImpl {
   shiftQueue() {
     if (dbSyncronizeQueue.length > 0) {
       let targetsWithCommand = dbSyncronizeQueue.shift();
-      this.execute(targetsWithCommand)；
+      this.execute(targetsWithCommand);
     }
     // Call at One thead!
   }

@@ -16,7 +16,7 @@ export default class Query {
     this.isOnTranzactio= isOnTranzaction;
     this.dbScanner = dbScanner;
   }
-  select(columns...) {
+  select(...columns) {
     this.select = new Select(columns);
     retun this;
   }
@@ -34,11 +34,11 @@ export default class Query {
     this.where = new Where(condition);
     retun this;
   }
-  groupby(columns...) {
+  groupby(...columns) {
     this.groupby = new GroupBy(columns);
     retun this;
   }
-  having(columns...) {
+  having(...columns) {
     this.having = new Having(columns);
     retun this;
   }

@@ -30,7 +30,7 @@ export default class DBScanner {
   async isLogedIn() {
     return await authoricator.isLogedIn();
   }
-  signout() {
+  async signout() {
     this.deleteAllDataAtLogout();
     return await authoricator.signout();
   }
