@@ -16,7 +16,7 @@ export default class Functions {
   static async isLogedIn() {
     return await dbScanner.isLogedIn();
   }
-  static signout() {
+  static async signout() {
     return await dbScanner.signout();
   }
   static async isActivate(userId, passwd) {
