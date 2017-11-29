@@ -23,23 +23,23 @@ export default class Condition {
           retList.pus(this.getValueByPath(one, pathTokensNext.join(".")));
         }
         return retList;
-        ｝else {
-          return this.getValueByPath(nextOne, pathTokensNext.join("."))
-        }
       } else {
-        return record[path];
+        return this.getValueByPath(nextOne, pathTokensNext.join("."))
       }
-      return null;
+    } else {
+      return record[path];
     }
-
-    getRealValueAsArray(record, value, isColumnName) {
-      let valueReal = value;
-      if (isColumnName) {
-        valueReal = this.getValueByPath(record, valueReal);
-      }
-      if (Array.isArray(valueReal) === false) {
-        valueReal = [valueReal];
-      }
-      return valueReal;
-    }
+    return null;
   }
+
+  getRealValueAsArray(record, value, isColumnName) {
+    let valueReal = value;
+    if (isColumnName) {
+      valueReal = this.getValueByPath(record, valueReal);
+    }
+    if (Array.isArray(valueReal) === false) {
+      valueReal = [valueReal];
+    }
+    return valueReal;
+  }
+}
