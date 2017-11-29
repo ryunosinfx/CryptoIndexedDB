@@ -29,7 +29,7 @@ export default class select {
     }
     return retList;
   }
-  executeByRecord(record, records)) {
+  executeByRecord(record, records) {
     let retOne = {};
     for (let column of this.columns) {
       retOne[column.path] = column.execute(record, records);

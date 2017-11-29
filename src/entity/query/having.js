@@ -1,9 +1,9 @@
-import Condtion from './condtions/condtion'
+import Condition from './conditions/condition'
 import Column from './columns/column'
 export default class Having {
-  constructor(condtion) {
-    this.condtion = condtion;
-    this.condtion = new Condtion();
+  constructor(condition) {
+    this.condition = condition;
+    this.condition = new Condition();
     this.columnPathArray = [];
     this.columnMap = {};
     let dummy = (a) => {

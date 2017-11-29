@@ -1,8 +1,8 @@
-import Condtion from './condtions/condtion'
+import Condition from './conditions/condition'
 export default class OrderBy {
   constructor(orders) {
     this.orders = orders;
-    this.condtion = new Condtion();
+    this.condition = new Condition();
   }
   execute(selectData) {
     let resultMap = {
@@ -32,8 +32,8 @@ export default class OrderBy {
   toBeASC(list, order) {
     let self = this;
     list.sort(function(recordA, recordB) {
-      let a = self.condtion.getValueByPath(recordA, order.path);
-      let b = self.condtion.getValueByPath(recordB, order.path);
+      let a = self.condition.getValueByPath(recordA, order.path);
+      let b = self.condition.getValueByPath(recordB, order.path);
       if (a < b)
         return -1;
       if (a > b)
@@ -44,8 +44,8 @@ export default class OrderBy {
   toBeDESC(list, order) {
     let self = this;
     list.sort(function(recordA, recordB) {
-      let a = self.condtion.getValueByPath(recordA, order.path);
-      let b = self.condtion.getValueByPath(recordB, order.path);
+      let a = self.condition.getValueByPath(recordA, order.path);
+      let b = self.condition.getValueByPath(recordB, order.path);
       if (a > b)
         return -1;
       if (a < b)

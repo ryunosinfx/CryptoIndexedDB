@@ -1,10 +1,10 @@
-import Condtion from '../condtions/condtion'
-export default class Column extends Condtion {
+import Condition from '../conditions/condition'
+export default class Column extends Condition {
   constructor(path) {
     this.path = path;
     this.isAggrigative = false;
   }
   execute(record) {
-    retun record;
+    return record;
   }
 }

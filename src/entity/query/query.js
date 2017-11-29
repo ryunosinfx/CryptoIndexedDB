@@ -4,7 +4,7 @@ import Where from './where'
 import Orderby from './orderby'
 import GroupBy from './groupby'
 import Having from './having'
-import Condtion from './condtions/condtion'
+import Condition from './conditions/condition'
 export default class Query {
   constructor(isOnTranzaction,dbScanner) {
     this.select;
@@ -28,7 +28,7 @@ export default class Query {
     return this;
   }
   where(condition) {
-    if (Object.getPrototypeOf(condition) !== Condtion) {
+    if (Object.getPrototypeOf(condition) !== Condition) {
       throw "not mutch the type!!";
     }
     this.where = new Where(condition);

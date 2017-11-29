@@ -1,9 +1,9 @@
-import Condtion from './condtions/condtion'
+import Condition from './conditions/condition'
 import Column from './columns/column'
 export default class GroupBy {
   constructor(columns) {
     this.columns = columns;
-    this.condtion = new Condtion();
+    this.condition = new Condition();
     this.columnPathArray = [];
     this.columnMap = {};
     let dummy = (a) => {
@@ -30,7 +30,7 @@ export default class GroupBy {
       let retOne = {};
       let groupingKey = [];
       for (let columnPath of this.columnPathArray) {
-        let a = self.condtion.getValueByPath(record, order.path);
+        let a = self.condition.getValueByPath(record, order.path);
         let b = this.columnMap[columnPath].execute(a);
         retOne[columnPath] = b;
         groupingKey.push(columnPath);
