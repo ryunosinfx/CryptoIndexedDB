@@ -42,7 +42,7 @@ class DBControlUtilImpl {
   async getAllIDBWrappers() {
     return this.isLoaded
       ? idbWrppers
-      : awate this.loadIDBWrappers();
+      : await this.loadIDBWrappers();
   }
   async decrypData(encryptedData) {
     try {

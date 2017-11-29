@@ -18,36 +18,36 @@ export default class Query {
   }
   select(...columns) {
     this.select = new Select(columns);
-    retun this;
+    return this;
   }
   from(entity) {
     if (Object.getPrototypeOf(entity) !== entity) {
       throw "not mutch the type!!";
     }
     this.from = new From(entity.name,this.isOnTranzactio,this.dbScanner);
-    retun this;
+    return this;
   }
   where(condition) {
     if (Object.getPrototypeOf(condition) !== Condtion) {
       throw "not mutch the type!!";
     }
     this.where = new Where(condition);
-    retun this;
+    return this;
   }
   groupby(...columns) {
     this.groupby = new GroupBy(columns);
-    retun this;
+    return this;
   }
   having(...columns) {
     this.having = new Having(columns);
-    retun this;
+    return this;
   }
   orderby(orders) {
     if (Arrays.isArray(orders) === false) {
       throw "not mutch the type!!";
     }
     this.orderby = new OrderBy(orders);
-    retun this;
+    return this;
   }
   execute() {
     let retList = [];

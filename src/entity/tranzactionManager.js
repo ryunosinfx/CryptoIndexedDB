@@ -24,8 +24,13 @@ export default class TranzactionManager extends entityManager {
   commit() {
     let self = this;
     let cmd = [
-      {command: "delete", targets: this.tranzactionalQueue.delete},
-      {command: "save", targets: this.tranzactionalQueue.save}
+      {
+        command: "delete",
+        targets: this.tranzactionalQueue.delete
+      }, {
+        command: "save",
+        targets: this.tranzactionalQueue.save
+      }
     ];
     let executePromise = this.dBSyncronizer.doExecuteAsTranzactional(cmd);
     return new Promise((resolve, reject) => {
@@ -73,9 +78,10 @@ export default class TranzactionManager extends entityManager {
     }
     this.tranzactionalQueue[command] = this.tranzactionalQueue[command].concat(targets);
   }
-  async createQuery(isOnTranzaction) {
-    if () {
-      return await super.createQuery(true);
-    }
-    return null;
-  }
+  // async createQuery(isOnTranzaction) {
+  //   if (isOnTranzaction) {
+  //     return await super.createQuery(!!isOnTranzaction);
+  //   }
+  //   return null;
+  // }
+}

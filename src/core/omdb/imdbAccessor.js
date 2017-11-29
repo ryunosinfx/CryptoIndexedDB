@@ -115,6 +115,6 @@ export default class ImdbAccessor {
         data[key] = this.selectList(value.keys);
       }
     }
-    return entity；
+    return entity;
   }
 }
