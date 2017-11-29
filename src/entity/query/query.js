@@ -4,7 +4,7 @@ import Where from './where'
 import Orderby from './orderby'
 import GroupBy from './groupby'
 import Having from './having'
-import Condtion from './condtion'
+import Condtion from './condtions/condtion'
 export default class Query {
   constructor(isOnTranzaction,dbScanner) {
     this.select;

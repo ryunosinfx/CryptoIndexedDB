@@ -52,6 +52,5 @@ export default class OrderBy {
         return 1;
       return 0;
     });
-  });
-}
+  }
 }

@@ -182,7 +182,7 @@ export default class DBControlUtil {
     return await impl.getAllIDBWrappers();
   }
   async singleLoad(entity) {
-    let idbr = awaite this.setPkHash(entity);
+    let idbr = await this.setPkHash(entity);
     let pkHash = entity.pkHash;
     return await this.singleLoadExecute(idbr, pkHash);
   }

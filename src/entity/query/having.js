@@ -25,6 +25,6 @@ export default class Having {
         resultMap.gropuByed[groupByKey] = records;
       }
     }
-    retun resultMap;
+    return resultMap;
   }
 }

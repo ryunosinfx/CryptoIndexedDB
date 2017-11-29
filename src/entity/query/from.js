@@ -1,4 +1,4 @@
-import DBScannerReafOnly from '../../core/dbScannerReafOnly'
+import DBScannerReafOnly from '../../core/dbScannerReadOnly'
 export default class from {
   constructor(entityName, isOnTranzaction, dbScanner) {
     this.dbScanner = dbScanner;

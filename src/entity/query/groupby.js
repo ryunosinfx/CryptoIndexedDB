@@ -50,6 +50,6 @@ export default class GroupBy {
     }
     retMap.gropuByed = retRecoreds;
     retMap.preGroupByed = preGroupByed;
-    retun retMap;
+    return retMap;
   }
 }

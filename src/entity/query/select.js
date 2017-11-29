@@ -27,7 +27,7 @@ export default class select {
         retList.push(this.executeByRecord(record, records));
       }
     }
-    retun retList;
+    return retList;
   }
   executeByRecord(record, records)) {
     let retOne = {};

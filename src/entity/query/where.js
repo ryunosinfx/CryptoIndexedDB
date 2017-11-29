@@ -10,7 +10,7 @@ export default class where {
     for (let pk in selectData.gropuByed) {
       let record = resultMap.gropuByed[record.pk];
       let records = resultMap.preGroupByed[record.pk];
-      if (this.condition.execute(record, records) {
+      if (this.condition.execute(record, records)) {
         resultMap.gropuByed[record.pk] = record;
         resultMap.preGroupByed[record.pk] = [record];
       }
