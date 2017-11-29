@@ -205,7 +205,7 @@ export default class DBControlUtil {
     }
     return null;
   }
-  async decrypEntityMap(DataList) {{
+  async decrypEntityMap(DataList) {
     let resultMap = {};
     let decrypDataList = await this.decrypDataList(DataList);
     for(let jsonRecode of decrypDataList){
