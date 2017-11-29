@@ -1,6 +1,6 @@
 export default class Order {
-  constructor(path,derection) {
+  constructor(path, derection) {
     this.path = path;
-    this.isDESC = derection==="DESC";
+    this.isDESC = derection === "DESC";
   }
 }

@@ -7,7 +7,7 @@ export default class Msin extends Column {
     this.min = 0;
     this.isAggrigative = true;
   }
-  execute(record,records) {
+  execute(record, records) {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);
@@ -22,6 +22,6 @@ export default class Msin extends Column {
 
     this.min = this.min === 0 || this.min > plane
       ? plane
-      : this.min ;
+      : this.min;
   }
 }

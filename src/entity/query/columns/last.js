@@ -6,10 +6,10 @@ export default class First extends Column {
     this.value = null;
     this.isAggrigative = true;
   }
-  execute(record,records) {
-    if (Array.isArray(records) && records.length >0) {
-        this.executePerRecord(records[records.length-1]);
-        return this.value;
+  execute(record, records) {
+    if (Array.isArray(records) && records.length > 0) {
+      this.executePerRecord(records[records.length - 1]);
+      return this.value;
     } else {
       this.executePerRecord(records);
     }

@@ -15,7 +15,7 @@ export default class OrderBy {
     for (let groupByKey in selectData.gropuByed) {
       let record = resultMap.gropuByed[groupByKey];
       sortData.push(record);
-      sortedMap[record] =groupByKey;
+      sortedMap[record] = groupByKey;
     }
     let orders = ([].concat(this.orders)).reverse();
     for (let order of orders) {

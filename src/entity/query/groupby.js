@@ -22,7 +22,10 @@ export default class GroupBy {
     }
   }
   execute(selectData) {
-    let retMap = {gropuByed:"",preGroupByed:""};
+    let retMap = {
+      gropuByed: "",
+      preGroupByed: ""
+    };
     let retRecoreds = [];
     let groupingMap = [];
     let preGroupByed = {};
@@ -38,7 +41,7 @@ export default class GroupBy {
       }
       let groupKey = groupingKey.join("/");
       let list = preGroupByed[preGroupByed];
-      if(list === undefined){
+      if (list === undefined) {
         list = [];
         preGroupByed[preGroupByed] = list;
       }

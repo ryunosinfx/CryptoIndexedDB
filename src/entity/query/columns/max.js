@@ -7,7 +7,7 @@ export default class Max extends Column {
     this.max = 0;
     this.isAggrigative = true;
   }
-  execute(record,records) {
+  execute(record, records) {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);
@@ -22,6 +22,6 @@ export default class Max extends Column {
 
     this.max = this.max === 0 || this.max < plane
       ? plane
-      : this.max ;
+      : this.max;
   }
 }

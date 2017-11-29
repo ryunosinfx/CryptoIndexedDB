@@ -6,14 +6,14 @@ import GroupBy from './groupby'
 import Having from './having'
 import Condition from './conditions/condition'
 export default class Query {
-  constructor(isOnTranzaction,dbScanner) {
+  constructor(isOnTranzaction, dbScanner) {
     this.select;
     this.from = null;
     this.where = null;
     this.groupby = null;
     this.having = null;
     this.orderby = null;
-    this.isOnTranzactio= isOnTranzaction;
+    this.isOnTranzactio = isOnTranzaction;
     this.dbScanner = dbScanner;
   }
   select(...columns) {
@@ -24,7 +24,7 @@ export default class Query {
     if (Object.getPrototypeOf(entity) !== entity) {
       throw "not mutch the type!!";
     }
-    this.from = new From(entity.name,this.isOnTranzactio,this.dbScanner);
+    this.from = new From(entity.name, this.isOnTranzactio, this.dbScanner);
     return this;
   }
   where(condition) {
@@ -51,17 +51,17 @@ export default class Query {
   }
   execute() {
     let retList = [];
-    let fromData = this.from .execute();
-    if(this.where){
+    let fromData = this.from.execute();
+    if (this.where) {
       fromData = this.where(fromData);
     }
-    if(this.groupby){
+    if (this.groupby) {
       fromData = this.groupby(fromData);
     }
-    if(this.having){
+    if (this.having) {
       fromData = this.having(fromData);
     }
-    if(this.orderby){
+    if (this.orderby) {
       fromData = this.orderby(fromData);
     }
 

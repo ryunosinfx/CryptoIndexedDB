@@ -6,7 +6,7 @@ export default class First extends Column {
     this.value = null;
     this.isAggrigative = true;
   }
-  execute(record,records) {
+  execute(record, records) {
     if (Array.isArray(records)) {
       for (let record of records) {
         this.executePerRecord(record);

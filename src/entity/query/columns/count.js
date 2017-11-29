@@ -5,10 +5,10 @@ export default class Count extends Column {
     this.path = path;
     this.isAggrigative = true;
   }
-  execute(record,records) {
-    if(Array.isArray(records)){
+  execute(record, records) {
+    if (Array.isArray(records)) {
       return records.length;
-    }else{
+    } else {
       return 1;
     }
   }

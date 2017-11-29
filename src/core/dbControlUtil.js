@@ -197,9 +197,9 @@ export default class DBControlUtil {
     }
     return null;
   }
-  async decryptEntity(encryptedData){{
+  async decryptEntity(encryptedData) {
     let decrypDataList = await this.decrypDataList([encryptedData]);
-    for(let jsonRecode of decrypDataList){
+    for (let jsonRecode of decrypDataList) {
       let entity = imple.deserialize(jsonRecode);
       return entity;
     }
@@ -208,12 +208,12 @@ export default class DBControlUtil {
   async decrypEntityMap(DataList) {
     let resultMap = {};
     let decrypDataList = await this.decrypDataList(DataList);
-    for(let jsonRecode of decrypDataList){
+    for (let jsonRecode of decrypDataList) {
       let entity = imple.deserialize(jsonRecode);
-      if(entity!== null){
+      if (entity !== null) {
         let entityName = entity.constructor.name;
         let list = resultMap[entityName];
-        if(list === undefined){
+        if (list === undefined) {
           list = [];
           resultMap[entityName] = list;
         }
@@ -236,16 +236,16 @@ export default class DBControlUtil {
   }
   async loadBinaryData(key) {}
   async saveAsEncryptedData(entity) {
-    return await　imple.saveAsEncryptedData(entity);
+    return await imple.saveAsEncryptedData(entity);
   }
   async delete(entity) {
-      return await　imple.delete(entity);
+    return await imple.delete(entity);
   }
   //　この処理がEntity定義地に呼ばれることを
-  registerEntity(entity){
+  registerEntity(entity) {
     impl.registerEntity(entity);
   }
-  createEntity(entityName){
+  createEntity(entityName) {
     return impl.createEntity(entityName);
   }
 }

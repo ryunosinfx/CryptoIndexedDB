@@ -4,8 +4,8 @@ export default class In extends Condition {
     this.orConditions = orConditions;
   }
   execute(record) {
-    for(let orCondition of this.orConditions){
-      if(orCondiion.execute(record)!==null){
+    for (let orCondition of this.orConditions) {
+      if (orCondiion.execute(record) !== null) {
         return record;
       }
     }
