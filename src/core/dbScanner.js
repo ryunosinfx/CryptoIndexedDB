@@ -4,7 +4,7 @@ import idbr from './idb/idbRapper'
 import ImdbAccessor from './omdb/imdbAccessor'
 const imdbAccessor = new ImdbAccessor();
 const authoricator = new Authoricator();
-const dbControlUtil = new DBControlUtil(authoricator));
+const dbControlUtil = new DBControlUtil(authoricator);
 const dBSyncronizer = new DBSyncronizer(authoricator, imdbAccessor)
 export default class DBScanner {
   constructor() {

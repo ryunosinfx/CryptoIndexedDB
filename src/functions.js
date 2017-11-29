@@ -1,7 +1,7 @@
 import DBScanner from './core/dbScanner'
-import EntityManager from './enity/entityManager'
-import TranzactionManager from './enity/TranzactionManager'
-import Query from './enity/query/query'
+import EntityManager from './entity/entityManager'
+import TranzactionManager from './entity/tranzactionManager'
+import Query from './entity/query/query'
 
 const dbScanner = new DBScanner();
 export default class Functions {
