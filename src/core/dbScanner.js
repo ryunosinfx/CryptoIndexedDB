@@ -3,6 +3,7 @@ import Authoricator from './auth/authoricator'
 import idbr from './idb/idbRapper'
 import ImdbAccessor from './omdb/imdbAccessor'
 import DBControlUtil from './dbControlUtil'
+import DBSyncronizer from './dbSyncroniser'
 const imdbAccessor = new ImdbAccessor();
 const authoricator = new Authoricator();
 const dbControlUtil = new DBControlUtil(authoricator);

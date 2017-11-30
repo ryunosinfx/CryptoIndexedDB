@@ -1,5 +1,4 @@
 import constant from '../core/constant'
-import DBSyncronizer from '../core/dbSyncroniser'
 import DBScanner from '../core/dbScanner'
 export default class EntityManager {
   constructor(dbScanner) {
