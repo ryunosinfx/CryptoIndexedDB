@@ -44,7 +44,6 @@ export default class ImdbAccessor {
       let conditions = entity.getAsConditions();
       let entityName = entity.constructor.name;
       let imdbEntities = inMemoryDB[entityName];
-      let conditions = entity.getAsConditions();
       let resultList = [];
       if (imdbEntities !== undefined) {
         for (let record in imdbEntities) {
