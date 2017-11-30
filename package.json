@@ -1,6 +1,6 @@
 {
   "name": "encrypt-indexeddb-entity-manager",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "EncryptIndexedDBEntityManager",
   "main": "index.js",
   "scripts": {

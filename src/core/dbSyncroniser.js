@@ -4,7 +4,7 @@ import Entity from '../entity/entity'
 import DBControlUtil from './dbControlUtil'
 const dbSyncronizeQueue = [];
 
-const dbsImpl = null;
+let dbsImpl = null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 class DBSyncronizerImpl {
