@@ -49,14 +49,14 @@ export default class Entity {
     this.updateTimm = Date.getTime();
   }
   // XQLを考えると、Queryが存在して、from,Where(and,or,in,between,exists),groupby,having,orderby,がある。
-  getAsContions(){
-    let contions = {};
+  getAsConditions(){
+    let conditions = {};
     for(let propName in this.update){
       let propValue = this.update[propName];
       if(propValue !== undefined) {
-        contions[propName] = propValue;
+        conditions[propName] = propValue;
       }
     }
-    return contions;
+    return conditions;
   }
 }

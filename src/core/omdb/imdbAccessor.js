@@ -41,10 +41,10 @@ export default class ImdbAccessor {
   }
   select(entity) {
     if (entity != null && Object.getPrototypeOf(Object.getPrototypeOf(entity)) === Entity) {
-      let conditions = entity.getAsContions();
+      let conditions = entity.getAsConditions();
       let entityName = entity.constructor.name;
       let imdbEntities = inMemoryDB[entityName];
-      let conditions = entity.getAsContions();
+      let conditions = entity.getAsConditions();
       let resultList = [];
       if (imdbEntities !== undefined) {
         for (let record in imdbEntities) {
