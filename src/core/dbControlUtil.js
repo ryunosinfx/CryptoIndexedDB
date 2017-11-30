@@ -1,7 +1,7 @@
 import constant from './constant'
 import idbr from './idb/idbRapper'
 import Entity from '../entity/entity'
-const impl = null;
+let impl = null;
 const idbWrppers = {};
 const entityClasses = {};
 class DBControlUtilImpl {
@@ -11,7 +11,7 @@ class DBControlUtilImpl {
     this.isLoaded = false;
   }
   async reload(entity) {
-    var idbr = new idbr(constant.sysPrefix);
+    let idbr = new idbr(constant.sysPrefix);
   }
   async loadIDBWrappers() {
     let osNames = await this.idbr.getOsNames();
