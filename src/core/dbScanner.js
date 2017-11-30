@@ -2,6 +2,7 @@ import constant from './constant'
 import Authoricator from './auth/authoricator'
 import idbr from './idb/idbRapper'
 import ImdbAccessor from './omdb/imdbAccessor'
+import DBControlUtil from './dbControlUtil'
 const imdbAccessor = new ImdbAccessor();
 const authoricator = new Authoricator();
 const dbControlUtil = new DBControlUtil(authoricator);
