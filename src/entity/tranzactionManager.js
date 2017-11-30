@@ -1,7 +1,7 @@
 import constant from '../core/constant'
 import EntityManager from './entityManager'
 import Query from './query/query'
-export default class TranzactionManager extends entityManager {
+export default class TranzactionManager extends EntityManager {
   constructor(dbScanner) {
     super.constructor(dbScanner);
     this.isOnTranzaction = false;
