@@ -13,7 +13,7 @@ export default class Authoricator {
   //引数なしコンストラクター
   constructor() {}
   //ユーザ登録
-  async signup(userId, passwd) {
+  async signupExecute(userId, passwd) {
     // console.log("Authoricator-signup--a001");
     this.impl = new AuthoricatorImpl(userId);
     // console.log("Authoricator-signup--a002");
@@ -28,6 +28,15 @@ export default class Authoricator {
     await this.impl.saveKeys(this.impl.EncryptionTokenAKey, encrypted);
     // console.log("Authoricator-signup--a007");
     return true;
+  }
+  //ユーザ登録
+  async signup(userId, passwd) {
+    let isActivate = await this.signin(userId, passwd);
+    if(isActivate){
+      return false;
+    }
+    // console.log("Authoricator-signup--a002");
+    return await this.signupExecute(userId, passwd);
   }
   //ログイン
   async signin(userId, passwd) {
