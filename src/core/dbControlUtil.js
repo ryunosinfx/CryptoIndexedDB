@@ -26,6 +26,7 @@ class DBControlUtilImpl {
       }
     }
     this.isLoaded = true;
+    return idbWrppers;
   }
   async setPkHash(entity) {
     let pk = entity.pk;
