@@ -2,7 +2,7 @@ import constant from './constant'
 import idbr from './idb/idbRapper'
 import Entity from '../entity/entity'
 let impl = null;
-const idbWrppers = {};
+const idbWrppers = new Map();
 const entityClasses = {};
 class DBControlUtilImpl {
   constructor(authoricator) {
@@ -22,7 +22,7 @@ class DBControlUtilImpl {
     for (let osName of osNames) {
       if (osName.indexOf(encPrefix) === 0 && osName.length === osNameLength) {
         let key = osName.substring(encPrefixLength, osNameLength);
-        idbWrppers[key] = new idbr(osName);
+        idbWrppers.set(key, new idbr(osName));
       }
     }
     this.isLoaded = true;
@@ -35,10 +35,10 @@ class DBControlUtilImpl {
     let key = pkHash.substring(0, 2);
     let osName = constant.encPrefix + key;
     entity.pkHash = pkHash;
-    if (idbWrppers[key] === undefined) {
-      idbWrppers[key] = new idbr(osName);
+    if (idbWrppers.get(key) === undefined) {
+      idbWrppers.set(key,new idbr(osName));
     }
-    return idbWrppers[key];
+    return idbWrppers.get(key);
   }
   async getAllIDBWrappers() {
     return this.isLoaded
@@ -138,7 +138,7 @@ class DBControlUtilImpl {
   }
   getIdbWrpper(pkHash) {
     let key = pkHash.substring(0, 2);
-    return idbWrppers[key];
+    return idbWrppers.get(key);
   }
   async saveAsEncryptedData(entity) {
     await this.setPkHash(entity);
