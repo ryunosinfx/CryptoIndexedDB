@@ -82,11 +82,11 @@ export default class AuthoricatorTest {
     let result02 = null;
     try{
       console.log("AuthoricatorTest---b01");
-      result02 = await this.authoricator.activate(userId,password)+"/";
+      result02 = 'b01 activate:'+await this.authoricator.activate(userId,password)+"/";
       console.log("AuthoricatorTest---b02");
-      result02 += await this.authoricator.signin(userId,password)+"/";
+      result02 += 'b01 signin:'+await this.authoricator.signin(userId,password)+"/";
       console.log("AuthoricatorTest---b03");
-      result02 += await this.authoricator.isLogedIn()+"/";
+      result02 += 'b01 isLogedIn:'+await this.authoricator.isLogedIn()+"/";
       console.log("AuthoricatorTest---b04");
     }catch(e){
       result02 = e;
@@ -99,7 +99,9 @@ export default class AuthoricatorTest {
       result03 = await this.authoricator.signout()+"/";
         console.log("AuthoricatorTest---c02");
       result03 += await this.authoricator.signin(userId,password)+"/";
-        console.log("AuthoricatorTest---c03");
+        console.log("AuthoricatorTest---c03a");
+      result03 += await this.authoricator.isLogedIn()+"/";
+        console.log("AuthoricatorTest---c03b");
       result03 += await this.authoricator.signout()+"/";
         console.log("AuthoricatorTest---c04");
       result03 += await this.authoricator.isLogedIn();
